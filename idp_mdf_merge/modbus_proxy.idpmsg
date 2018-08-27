@@ -1,0 +1,1485 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MessageDefinition xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Services>
+    <Service>
+      <Name>Modbus</Name>
+      <SIN>200</SIN>
+      <ForwardMessages>
+        <Message>
+          <Name>setConfig</Name>
+          <Description>Message to set a configuration for ports, devices, parameters and properties. Configuration can be set individually for each group or all together</Description>
+          <MIN>10</MIN>
+          <Fields>
+            <Field xsi:type="ArrayField">
+              <Name>ports</Name>
+              <Description>Port is a configurable constraint that allows to connect an IDP terminal to a Modbus Slave device(s)</Description>
+              <Optional>true</Optional>
+              <Size>3</Size>
+              <Fields>
+                <Field xsi:type="EnumField">
+                  <Name>port</Name>
+                  <Description>Name of the port to connect.
+Values: rs232, rs232aux, rs485</Description>
+                  <Items>
+                    <string>rs232</string>
+                    <string>rs232aux</string>
+                    <string>rs485</string>
+                  </Items>
+                  <Size>2</Size>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>baudRate</Name>
+                  <Description>Speed of communication over a data channel in b/s.
+Values: 1200, 2400, 4800, 19200, 38400, 57600, and 115200</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>2400</string>
+                    <string>4800</string>
+                    <string>9600</string>
+                    <string>14400</string>
+                    <string>19200</string>
+                    <string>38400</string>
+                    <string>57600</string>
+                    <string>115200</string>
+                    <string>1200</string>
+                  </Items>
+                  <Size>3</Size>
+                  <Default>2</Default>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>parity</Name>
+                  <Description>Method of detecting errors in serial data transmission.
+Values: even, odd</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>none</string>
+                    <string>even</string>
+                    <string>odd</string>
+                  </Items>
+                  <Size>2</Size>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>mode</Name>
+                  <Description>Communication mode.
+Values: rtu, ascii</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>rtu</string>
+                    <string>ascii</string>
+                  </Items>
+                  <Size>1</Size>
+                </Field>
+              </Fields>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>devices</Name>
+              <Description>Configuration of slave devices</Description>
+              <Optional>true</Optional>
+              <Size>100</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>deviceId</Name>
+                  <Description>Unique identifier of a device used to identify a particular device among other devices and link it to other configuration parameters</Description>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>networkId</Name>
+                  <Description>Unique address of the Modbus device in a network</Description>
+                  <Optional>true</Optional>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>port</Name>
+                  <Description>Serial communication port to where a peripheral device (sensor, PLC) is connected.
+Values: rs232, rs232aux or rs485</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>rs232</string>
+                    <string>rs232aux</string>
+                    <string>rs485</string>
+                  </Items>
+                  <Size>2</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>pollInterval</Name>
+                  <Description>Frequency of requesting data from a particular device</Description>
+                  <Optional>true</Optional>
+                  <Size>17</Size>
+                  <Default>60</Default>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>byteOrder</Name>
+                  <Description>Sequential order in which bytes are arranged into larger values when transmitted over serial link</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>msb</string>
+                    <string>lsb</string>
+                  </Items>
+                  <Size>1</Size>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>wordOrder</Name>
+                  <Description>Sequential order in which words, formed by bytes, are arranged when transmitted over serial link</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>msw</string>
+                    <string>lsw</string>
+                  </Items>
+                  <Size>1</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>serialRxTimeout</Name>
+                  <Description>Timeout on waiting to read data. Specifically, if the Modbus device fails to send a byte serialRxTimeout milliseconds after the last byte, a read timeout error will be raised.</Description>
+                  <Optional>true</Optional>
+                  <Size>15</Size>
+                  <Default>3000</Default>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>serialTxTimeout</Name>
+                  <Description>Timeout on waiting for the acknowledgement of transmission of data. Specifically, if the Modbus device fails to send write acknowledgement within serialTxTimeout milliseconds after the last byte has been sent, a write timeout error will be raised.</Description>
+                  <Optional>true</Optional>
+                  <Size>15</Size>
+                  <Default>3000</Default>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>plcBaseAddress</Name>
+                  <Description>The plcBaseAddress indicates the beginning address of registers. Addresses can start either with 0 or 1
+Values: 0,1</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>0</string>
+                    <string>1</string>
+                  </Items>
+                  <Size>1</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>retries</Name>
+                  <Description>The retries is the parameter that determines how many data transmission attempts will be made before raising an error</Description>
+                  <Optional>true</Optional>
+                  <Size>4</Size>
+                  <Default>3</Default>
+                </Field>
+              </Fields>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>parameters</Name>
+              <Description>Configuration of parameters. Parameters is an easy and convenient way to access data in a remote device. The Modbus register shift is a remapping of the registers is implemented true properties and allows a single over-the-air poll request to provide data from scattered registers that might not be in sequence, or even be of a different type, e.g. holding registers, input registers, inputs and coils.</Description>
+              <Optional>true</Optional>
+              <Size>300</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>paramId</Name>
+                  <Description>Unique identifier of a parameter used to identify a particular parameter among others and link it to reporting, analytics and/or volatile properties</Description>
+                  <Size>10</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>deviceId</Name>
+                  <Description>The deviceId referred to a deviceId in Devices configuration</Description>
+                  <Optional>true</Optional>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>registerType</Name>
+                  <Description>Type of modbus registers to read/write
+Values: coil, input, holdingRegister, analog</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>coil</string>
+                    <string>input</string>
+                    <string>holdingRegister</string>
+                    <string>analog</string>
+                  </Items>
+                  <Size>2</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>address</Name>
+                  <Description>Specific or a starting Modbus register to access data to/from</Description>
+                  <Optional>true</Optional>
+                  <Size>31</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>length</Name>
+                  <Description>Allows to specify how many registers starting from address to access for reading/writing. Only used for raw data and strings. Maximum length number is defined by the Modbus protocol</Description>
+                  <Optional>true</Optional>
+                  <Size>12</Size>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>encoding</Name>
+                  <Description>Allows to convert and interpret data from Modbus registers.
+Values: boolean, int8, uInt8, int16, uInt16, int32, float32, string, base64string, raw</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>boolean</string>
+                    <string>int8</string>
+                    <string>uInt8</string>
+                    <string>int16</string>
+                    <string>uInt16</string>
+                    <string>int32</string>
+                    <string>float32</string>
+                    <string>string</string>
+                    <string>base64string</string>
+                    <string>raw</string>
+                  </Items>
+                  <Size>4</Size>
+                </Field>
+              </Fields>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>properties</Name>
+              <Description>Configuration of propereties</Description>
+              <Optional>true</Optional>
+              <Size>245</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>paramId</Name>
+                  <Description>The paramId referred to a paramId in Parameters configuration</Description>
+                  <Size>10</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>pin</Name>
+                  <Description>The pin is the service volatile property number, to output parameter value</Description>
+                  <Size>8</Size>
+                </Field>
+              </Fields>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>getConfig</Name>
+          <Description>Message to get a configuration for ports, devices, parameters and properties. Configuration can be requested individually for each group, group member or all together. If no fields selected, the entire configuration will be sent</Description>
+          <MIN>11</MIN>
+          <Fields>
+            <Field xsi:type="EnumField">
+              <Name>port</Name>
+              <Description>If selected, then configuration for particular port will be sent.
+Values: rs232, rs232aux or rs485
+</Description>
+              <Optional>true</Optional>
+              <Items>
+                <string>rs232</string>
+                <string>rs232aux</string>
+                <string>rs485</string>
+              </Items>
+              <Size>3</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>deviceId</Name>
+              <Description>If provided, the configuration for the particular device will be sent</Description>
+              <Optional>true</Optional>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>paramId</Name>
+              <Description>If provided, the configuration for the particular parameter will be sent</Description>
+              <Optional>true</Optional>
+              <Size>10</Size>
+            </Field>
+            <Field xsi:type="BooleanField">
+              <Name>properties</Name>
+              <Description>If set to true, properties configuration will be sent</Description>
+              <Optional>true</Optional>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>delConfig</Name>
+          <Description>Message to delete a configuration for ports, devices, parameters and properties. Configuration can be deleted individually for group member or all together</Description>
+          <MIN>12</MIN>
+          <Fields>
+            <Field xsi:type="ArrayField">
+              <Name>ports</Name>
+              <Description>Name of the port to delete.
+Values: rs232, rs232aux, rs485</Description>
+              <Optional>true</Optional>
+              <Size>3</Size>
+              <Fields>
+                <Field xsi:type="EnumField">
+                  <Name>port</Name>
+                  <Description>Name of the port configuration  to delete.
+Values: rs232, rs232aux, rs485</Description>
+                  <Items>
+                    <string>rs232</string>
+                    <string>rs232aux</string>
+                    <string>rs485</string>
+                  </Items>
+                  <Size>2</Size>
+                </Field>
+              </Fields>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>devices</Name>
+              <Description>If selected, then configuration for the specific devices will be deleted</Description>
+              <Optional>true</Optional>
+              <Size>100</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>deviceId</Name>
+                  <Description>Unique identifier of a device to delete</Description>
+                  <Size>8</Size>
+                </Field>
+              </Fields>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>parameters</Name>
+              <Description>If selected, then configuration for the specific parameters will be deleted</Description>
+              <Optional>true</Optional>
+              <Size>300</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>paramId</Name>
+                  <Description>Unique identifier of a parameter to delete the configuration for</Description>
+                  <Size>10</Size>
+                </Field>
+              </Fields>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>properties</Name>
+              <Description>If selected, then configuration for the specific properties will be deleted</Description>
+              <Optional>true</Optional>
+              <Size>245</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>paramId</Name>
+                  <Description>Unique identifier of a parameter in parameter-pin assignment to delete</Description>
+                  <Size>10</Size>
+                </Field>
+              </Fields>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>setReporting</Name>
+          <Description>Message to set a configuration for periodic reporting</Description>
+          <MIN>13</MIN>
+          <Fields>
+            <Field xsi:type="ArrayField">
+              <Name>reports</Name>
+              <Description>Configuration of periodic reporting</Description>
+              <Size>100</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>reportingId</Name>
+                  <Description>Unique identifier of a report used to identify a particular reporting configuration</Description>
+                  <Size>31</Size>
+                </Field>
+                <Field xsi:type="StringField">
+                  <Name>paramIds</Name>
+                  <Description>Comma-separated list of parameters ids that will be included into the report. The paramId referred to a paramId in Parameters configuration</Description>
+                  <Size>255</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>interval</Name>
+                  <Description>Frequency of transmitting a report over-the-air in seconds. Reporting timer start as soon as the configuration is received and processed by the terminal or on terminal startup</Description>
+                  <Optional>true</Optional>
+                  <Size>20</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>timeOfDay</Name>
+                  <Description>Time of day in seconds from the midnight of current day in UTC format to transmit a daily report. 0 - disable, 86400 – midnight (next day)</Description>
+                  <Optional>true</Optional>
+                  <Size>18</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>timeOfDayWindow</Name>
+                  <Description>Used to delay messages that are scheduled for transmitting on a daily basis at a specific time of day (‘window” over which the report shall be randomized across a terminal population)</Description>
+                  <Optional>true</Optional>
+                  <Size>13</Size>
+                </Field>
+                <Field xsi:type="StringField">
+                  <Name>msgBitmap</Name>
+                  <Optional>true</Optional>
+                  <Size>2</Size>
+                </Field>
+                <Field xsi:type="BooleanField">
+                  <Name>sendOnStartup</Name>
+                  <Description>Flag that enables transmitting reports on every terminal startup</Description>
+                  <Optional>true</Optional>
+                </Field>
+              </Fields>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>getReporting</Name>
+          <Description>Message to request current configuration for periodic reporting. Configuration can be requested individually for each item or all together</Description>
+          <MIN>14</MIN>
+          <Fields>
+            <Field xsi:type="UnsignedIntField">
+              <Name>reportingId</Name>
+              <Description>Unique identifier of a report used to request a particular reporting configuration. If not selected, all configurations will be transmitted</Description>
+              <Optional>true</Optional>
+              <Size>31</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>delReporting</Name>
+          <Description>Message to delete current configuration for periodic reporting. Configuration can be deleted individually for each item or all together</Description>
+          <MIN>15</MIN>
+          <Fields>
+            <Field xsi:type="UnsignedIntField">
+              <Name>reportingId</Name>
+              <Description>Unique identifier of a report used to delete a particular reporting configuration. If not selected, all configurations will be deleted</Description>
+              <Optional>true</Optional>
+              <Size>31</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>setAnalytics</Name>
+          <Description>Message to set a configuration for analytics services</Description>
+          <MIN>16</MIN>
+          <Fields>
+            <Field xsi:type="ArrayField">
+              <Name>analytics</Name>
+              <Description>Configuration of analytics services</Description>
+              <Size>300</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>analyticsId</Name>
+                  <Description>Unique identifier of an analytics configuration used to identify a particular configuration</Description>
+                  <Size>31</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>paramId</Name>
+                  <Description>Referred to a paramId in Parameters configuration</Description>
+                  <Size>10</Size>
+                </Field>
+                <Field xsi:type="StringField">
+                  <Name>paramIds</Name>
+                  <Description>Comma-separated list of parameters ids that will be included into the report. The paramId referred to a paramId in Parameters configuration</Description>
+                  <Optional>true</Optional>
+                  <Size>255</Size>
+                </Field>
+                <Field xsi:type="SignedIntField">
+                  <Name>min</Name>
+                  <Description>Lower threshold against which the parameter value will be tested. If the parameter value drops below the min, an alert will be generated</Description>
+                  <Optional>true</Optional>
+                  <Size>32</Size>
+                </Field>
+                <Field xsi:type="SignedIntField">
+                  <Name>max</Name>
+                  <Description>Upper threshold against which the parameter value will be tested. If the parameter value raises above the max, an alert will be generated</Description>
+                  <Optional>true</Optional>
+                  <Size>32</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>change</Name>
+                  <Description>Used to detect parameter deviation by a certain value</Description>
+                  <Optional>true</Optional>
+                  <Size>31</Size>
+                </Field>
+                <Field xsi:type="StringField">
+                  <Name>msgBitmap</Name>
+                  <Optional>true</Optional>
+                  <Size>2</Size>
+                </Field>
+              </Fields>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>getAnalytics</Name>
+          <Description>Message to request current configuration for analytics. Configuration can be requested individually for each item or all together</Description>
+          <MIN>17</MIN>
+          <Fields>
+            <Field xsi:type="UnsignedIntField">
+              <Name>analyticsId</Name>
+              <Description>Unique identifier of an analytics configuration used to request a particular item. If not selected, all configurations will be sent</Description>
+              <Optional>true</Optional>
+              <Size>31</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>delAnalytics</Name>
+          <Description>Message to delete current configuration for analytics. Configuration can be deleted individually for each item or all together</Description>
+          <MIN>18</MIN>
+          <Fields>
+            <Field xsi:type="UnsignedIntField">
+              <Name>analyticsId</Name>
+              <Description>Unique identifier of an analytics configuration used to delete a particular item. If not selected, all configurations will be deleted</Description>
+              <Optional>true</Optional>
+              <Size>31</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>readParam</Name>
+          <Description>Message that generates a command to poll parameter data from the slave device. Poll request is sent regardless of the poll interval set in the configuration.</Description>
+          <MIN>19</MIN>
+          <Fields>
+            <Field xsi:type="ArrayField">
+              <Name>parameters</Name>
+              <Description>Set of parameters to request the data</Description>
+              <Size>100</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>paramId</Name>
+                  <Description>Referred to a paramId in Parameters configuration</Description>
+                  <Size>10</Size>
+                </Field>
+              </Fields>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>writeParam</Name>
+          <Description>Message generates a data push commands that writes data to registers, assigned to a particular parameter. In order to execute a command, a parameter must be configured. Push request is sent regardless of the poll interval set in the configuration</Description>
+          <MIN>20</MIN>
+          <Fields>
+            <Field xsi:type="ArrayField">
+              <Name>parameters</Name>
+              <Description>Set of parameters to wtite data</Description>
+              <Size>100</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>paramId</Name>
+                  <Description>Referred to a paramId in Parameters configuration</Description>
+                  <Size>10</Size>
+                </Field>
+                <Field xsi:type="StringField">
+                  <Name>value</Name>
+                  <Description>Value to write</Description>
+                  <Size>255</Size>
+                </Field>
+              </Fields>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>readData</Name>
+          <Description>Message that generates a registers data poll command from the slave device. Poll request is sent regardless of the poll interval set in the configuration</Description>
+          <MIN>21</MIN>
+          <Fields>
+            <Field xsi:type="ArrayField">
+              <Name>addresses</Name>
+              <Description>Set of addresses to request data</Description>
+              <Size>100</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>deviceId</Name>
+                  <Description>The deviceId referred to a deviceId in Devices configuration</Description>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>registerType</Name>
+                  <Description>Type of modbus registers to read/write
+Values: coil, input, holdingRegister, analog</Description>
+                  <Items>
+                    <string>coil</string>
+                    <string>input</string>
+                    <string>holdingRegister</string>
+                    <string>analog</string>
+                  </Items>
+                  <Size>2</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>address</Name>
+                  <Description>Specific or a starting Modbus register to access data from</Description>
+                  <Size>31</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>length</Name>
+                  <Description>Allows to specify how many registers starting from address to access for reading/writing. Only used for raw data and strings. Maximum length number is defined by the Modbus protocol</Description>
+                  <Size>11</Size>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>byteOrder</Name>
+                  <Description>Sequential order in which bytes are arranged into larger values when transmitted over serial link
+Values: msb, lsb</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>msb</string>
+                    <string>lsb</string>
+                  </Items>
+                  <Size>1</Size>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>wordOrder</Name>
+                  <Description>Sequential order in which words, formed by bytes, are arranged when transmitted over serial link
+Values: msw, lsw</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>msw</string>
+                    <string>lsw</string>
+                  </Items>
+                  <Size>1</Size>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>encoding</Name>
+                  <Description>Allows to convert and interpret data from Modbus registers.
+Values: boolean, int8, uInt8, int16, uInt16, int32, float32, string, base64string, raw</Description>
+                  <Items>
+                    <string>boolean</string>
+                    <string>int8</string>
+                    <string>uInt8</string>
+                    <string>int16</string>
+                    <string>uInt16</string>
+                    <string>int32</string>
+                    <string>float32</string>
+                    <string>string</string>
+                    <string>base64string</string>
+                    <string>raw</string>
+                  </Items>
+                  <Size>4</Size>
+                </Field>
+              </Fields>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>writeData</Name>
+          <Description>Message generates a data push commands that writes data to the registers. Push request is sent regardless of the poll interval set in the configuration</Description>
+          <MIN>22</MIN>
+          <Fields>
+            <Field xsi:type="ArrayField">
+              <Name>addresses</Name>
+              <Description>Set of addresses to write data</Description>
+              <Size>100</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>deviceId</Name>
+                  <Description>The deviceId referred to a deviceId in Devices configuration</Description>
+                  <Optional>true</Optional>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>registerType</Name>
+                  <Description>Type of modbus registers to read/write
+Values: coil, input, holdingRegister, analog</Description>
+                  <Items>
+                    <string>coil</string>
+                    <string>input</string>
+                    <string>holdingRegister</string>
+                    <string>analog</string>
+                  </Items>
+                  <Size>2</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>address</Name>
+                  <Description>Specific Modbus register to write data</Description>
+                  <Size>31</Size>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>byteOrder</Name>
+                  <Description>Sequential order in which bytes are arranged into larger values when transmitted over serial link
+Values: msb, lsb</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>msb</string>
+                    <string>lsb</string>
+                  </Items>
+                  <Size>1</Size>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>wordOrder</Name>
+                  <Description>Sequential order in which words, formed by bytes, are arranged when transmitted over serial link
+Values: msw, lsw</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>msw</string>
+                    <string>lsw</string>
+                  </Items>
+                  <Size>1</Size>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>encoding</Name>
+                  <Description>Allows to convert and interpret data from Modbus registers.
+Values: boolean, int8, uInt8, int16, uInt16, int32, float32, string, base64string, raw</Description>
+                  <Items>
+                    <string>boolean</string>
+                    <string>int8</string>
+                    <string>uInt8</string>
+                    <string>int16</string>
+                    <string>uInt16</string>
+                    <string>int32</string>
+                    <string>float32</string>
+                    <string>string</string>
+                    <string>base64string</string>
+                    <string>raw</string>
+                  </Items>
+                  <Size>4</Size>
+                </Field>
+                <Field xsi:type="StringField">
+                  <Name>value</Name>
+                  <Description>Value to write</Description>
+                  <Size>255</Size>
+                </Field>
+              </Fields>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>ackPositionChange</Name>
+          <MIN>23</MIN>
+        </Message>
+      </ForwardMessages>
+      <ReturnMessages>
+        <Message>
+          <Name>modbusResults</Name>
+          <Description>Message that contains modbus configuration. This message is set when new configuration set, requested, changed or removed</Description>
+          <MIN>10</MIN>
+          <Fields>
+            <Field xsi:type="ArrayField">
+              <Name>ports</Name>
+              <Description>Ports configuration</Description>
+              <Optional>true</Optional>
+              <Size>3</Size>
+              <Fields>
+                <Field xsi:type="EnumField">
+                  <Name>port</Name>
+                  <Description>Name of the port to connect.
+Values: rs232, rs232aux, rs485</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>rs232</string>
+                    <string>rs232aux</string>
+                    <string>rs485</string>
+                  </Items>
+                  <Size>2</Size>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>baudRate</Name>
+                  <Description>Current value, speed of communication over a data channel in b/s
+Values: 1200, 2400, 4800, 19200, 38400, 57600, and 115200</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>2400</string>
+                    <string>4800</string>
+                    <string>9600</string>
+                    <string>14400</string>
+                    <string>19200</string>
+                    <string>38400</string>
+                    <string>57600</string>
+                    <string>115200</string>
+                    <string>1200</string>
+                  </Items>
+                  <Size>3</Size>
+                  <Default>2</Default>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>parity</Name>
+                  <Description>Current value, method of detecting errors in serial data transmission
+Values: even, odd</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>none</string>
+                    <string>even</string>
+                    <string>odd</string>
+                  </Items>
+                  <Size>2</Size>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>mode</Name>
+                  <Description>Current value, communication mode
+Values: rtu, ascii</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>rtu</string>
+                    <string>ascii</string>
+                  </Items>
+                  <Size>1</Size>
+                </Field>
+              </Fields>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>devices</Name>
+              <Description>Devices configuration</Description>
+              <Optional>true</Optional>
+              <Size>100</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>deviceId</Name>
+                  <Description>Current value, unique identifier of a device used to identify a particular device among other devices and link it to other configuration parameters</Description>
+                  <Optional>true</Optional>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>networkId</Name>
+                  <Description>Current value, unique address of the Modbus device in a network</Description>
+                  <Optional>true</Optional>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>port</Name>
+                  <Description>Current value, serial communication port to where a peripheral device (sensor, PLC) is connected.
+Values: rs232, rs232aux or rs485</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>rs232</string>
+                    <string>rs232aux</string>
+                    <string>rs485</string>
+                  </Items>
+                  <Size>2</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>pollInterval</Name>
+                  <Description>Current value, frequency of requesting data from a particular device</Description>
+                  <Optional>true</Optional>
+                  <Size>17</Size>
+                  <Default>10</Default>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>byteOrder</Name>
+                  <Description>Current value, sequential order in which bytes are arranged into larger values when transmitted over serial link
+Values: msb, lsb</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>msb</string>
+                    <string>lsb</string>
+                  </Items>
+                  <Size>1</Size>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>wordOrder</Name>
+                  <Description>Current value, sequential order in which words, formed by bytes, are arranged when transmitted over serial link
+Values: msw, lsw</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>msw</string>
+                    <string>lsw</string>
+                  </Items>
+                  <Size>1</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>serialRxTimeout</Name>
+                  <Description>Current value, timeout on waiting to read data. Specifically, if the Modbus device fails to send a byte serialRxTimeout milliseconds after the last byte, a read timeout error will be raised</Description>
+                  <Optional>true</Optional>
+                  <Size>15</Size>
+                  <Default>1000</Default>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>serialTxTimeout</Name>
+                  <Description>Current value, timeout on waiting for the acknowledgement of transmission of data. Specifically, if the Modbus device fails to send write acknowledgement within serialTxTimeout milliseconds after the last byte has been sent, a write timeout error will be raised</Description>
+                  <Optional>true</Optional>
+                  <Size>15</Size>
+                  <Default>1000</Default>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>plcBaseAddress</Name>
+                  <Description>Current value, the plcBaseAddress indicates the beginning address of registers. Addresses can start either with 0 or 1
+Values: 0,1</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>0</string>
+                    <string>1</string>
+                  </Items>
+                  <Size>1</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>retries</Name>
+                  <Description>Current value, determines how many data transmission attempts will be made before raising an error</Description>
+                  <Optional>true</Optional>
+                  <Size>4</Size>
+                  <Default>3</Default>
+                </Field>
+              </Fields>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>parameters</Name>
+              <Description>Parameters configuration</Description>
+              <Optional>true</Optional>
+              <Size>300</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>paramId</Name>
+                  <Description>Current value, unique identifier of a parameter used to identify a particular parameter among others and link it to reporting, analytics and/or volatile properties</Description>
+                  <Optional>true</Optional>
+                  <Size>10</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>deviceId</Name>
+                  <Description>Current value, the deviceId referred to a deviceId in Devices configuration</Description>
+                  <Optional>true</Optional>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>registerType</Name>
+                  <Description>Current value, type of modbus registers to read/write
+Values: coil, input, holdingRegister, analog</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>coil</string>
+                    <string>input</string>
+                    <string>holdingRegister</string>
+                    <string>analog</string>
+                  </Items>
+                  <Size>2</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>address</Name>
+                  <Description>Current value, specific or a starting Modbus register to access data to/from</Description>
+                  <Optional>true</Optional>
+                  <Size>31</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>length</Name>
+                  <Description>Current value, allows to specify how many registers starting from address to access for reading/writing. Only used for raw data and strings. Maximum length number is defined by the Modbus protocol</Description>
+                  <Optional>true</Optional>
+                  <Size>12</Size>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>encoding</Name>
+                  <Description>Current value, allows to convert and interpret data from Modbus registers.
+Values: boolean, int8, uInt8, int16, uInt16, int32, float32, string, base64string, raw</Description>
+                  <Optional>true</Optional>
+                  <Items>
+                    <string>boolean</string>
+                    <string>int8</string>
+                    <string>uInt8</string>
+                    <string>int16</string>
+                    <string>uInt16</string>
+                    <string>int32</string>
+                    <string>float32</string>
+                    <string>string</string>
+                    <string>base64string</string>
+                    <string>raw</string>
+                  </Items>
+                  <Size>4</Size>
+                </Field>
+              </Fields>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>properties</Name>
+              <Description>Properties configuration</Description>
+              <Optional>true</Optional>
+              <Size>245</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>paramId</Name>
+                  <Description>Current value, the paramId referred to a paramId in Parameters configuration</Description>
+                  <Optional>true</Optional>
+                  <Size>10</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>pin</Name>
+                  <Description>Current value, the pin is the service volatile property number, to output parameter value</Description>
+                  <Optional>true</Optional>
+                  <Size>8</Size>
+                </Field>
+              </Fields>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>reportingResults</Name>
+          <Description>Message that contains reporting configuration. This message is sent when new reporting configuration set, requested, changed or removed</Description>
+          <MIN>11</MIN>
+          <Fields>
+            <Field xsi:type="ArrayField">
+              <Name>reports</Name>
+              <Size>100</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>reportingId</Name>
+                  <Size>31</Size>
+                </Field>
+                <Field xsi:type="StringField">
+                  <Name>paramIds</Name>
+                  <Optional>true</Optional>
+                  <Size>255</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>interval</Name>
+                  <Optional>true</Optional>
+                  <Size>20</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>timeOfDay</Name>
+                  <Optional>true</Optional>
+                  <Size>31</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>timeOfDayWindow</Name>
+                  <Optional>true</Optional>
+                  <Size>31</Size>
+                  <Default>31</Default>
+                </Field>
+                <Field xsi:type="BooleanField">
+                  <Name>sendOnStartup</Name>
+                  <Optional>true</Optional>
+                </Field>
+                <Field xsi:type="StringField">
+                  <Name>msgBitmap</Name>
+                  <Optional>true</Optional>
+                  <Size>2</Size>
+                </Field>
+              </Fields>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>analyticsResults</Name>
+          <Description>Message that contains analytics configuration. This message is sent when new analytics configuration set, requested, changed or removed</Description>
+          <MIN>12</MIN>
+          <Fields>
+            <Field xsi:type="ArrayField">
+              <Name>analytics</Name>
+              <Size>300</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>analyticsId</Name>
+                  <Size>31</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>paramId</Name>
+                  <Size>31</Size>
+                </Field>
+                <Field xsi:type="SignedIntField">
+                  <Name>min</Name>
+                  <Optional>true</Optional>
+                  <Size>32</Size>
+                </Field>
+                <Field xsi:type="SignedIntField">
+                  <Name>max</Name>
+                  <Optional>true</Optional>
+                  <Size>32</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>change</Name>
+                  <Optional>true</Optional>
+                  <Size>31</Size>
+                </Field>
+                <Field xsi:type="StringField">
+                  <Name>msgBitmap</Name>
+                  <Optional>true</Optional>
+                  <Size>2</Size>
+                </Field>
+                <Field xsi:type="StringField">
+                  <Name>paramIds</Name>
+                  <Description>Comma-separated list of parameters ids that will be included into the report. The paramId referred to a paramId in Parameters configuration</Description>
+                  <Optional>true</Optional>
+                  <Size>255</Size>
+                </Field>
+              </Fields>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>readParamResults</Name>
+          <Description>Message is sent as a response to the readParam to-mobile message</Description>
+          <MIN>13</MIN>
+          <Fields>
+            <Field xsi:type="ArrayField">
+              <Name>results</Name>
+              <Size>100</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>paramId</Name>
+                  <Size>10</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>timestamp</Name>
+                  <Optional>true</Optional>
+                  <Size>31</Size>
+                </Field>
+                <Field xsi:type="DynamicField">
+                  <Name>result</Name>
+                  <Optional>true</Optional>
+                </Field>
+                <Field xsi:type="StringField">
+                  <Name>err</Name>
+                  <Optional>true</Optional>
+                  <Size>100</Size>
+                </Field>
+              </Fields>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>timestamp</Name>
+              <Optional>true</Optional>
+              <Size>31</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>writeParamResults</Name>
+          <Description>Message is sent as a response to the writeParam to-mobile message</Description>
+          <MIN>14</MIN>
+          <Fields>
+            <Field xsi:type="ArrayField">
+              <Name>results</Name>
+              <Size>100</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>paramId</Name>
+                  <Optional>true</Optional>
+                  <Size>10</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>timestamp</Name>
+                  <Optional>true</Optional>
+                  <Size>31</Size>
+                </Field>
+                <Field xsi:type="StringField">
+                  <Name>err</Name>
+                  <Optional>true</Optional>
+                  <Size>100</Size>
+                </Field>
+              </Fields>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>timestamp</Name>
+              <Optional>true</Optional>
+              <Size>31</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>readDataResults</Name>
+          <Description>Message is sent as a response to the readData to-mobile message</Description>
+          <MIN>15</MIN>
+          <Fields>
+            <Field xsi:type="ArrayField">
+              <Name>results</Name>
+              <Size>100</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>timestamp</Name>
+                  <Optional>true</Optional>
+                  <Size>31</Size>
+                </Field>
+                <Field xsi:type="DynamicField">
+                  <Name>result</Name>
+                  <Optional>true</Optional>
+                </Field>
+                <Field xsi:type="StringField">
+                  <Name>err</Name>
+                  <Optional>true</Optional>
+                  <Size>100</Size>
+                </Field>
+              </Fields>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>timestamp</Name>
+              <Optional>true</Optional>
+              <Size>31</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>writeDataResults</Name>
+          <Description>Message is sent as a response to the writeData to-mobile message</Description>
+          <MIN>16</MIN>
+          <Fields>
+            <Field xsi:type="ArrayField">
+              <Name>results</Name>
+              <Size>100</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>paramId</Name>
+                  <Optional>true</Optional>
+                  <Size>10</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>timestamp</Name>
+                  <Optional>true</Optional>
+                  <Size>31</Size>
+                </Field>
+                <Field xsi:type="StringField">
+                  <Name>err</Name>
+                  <Optional>true</Optional>
+                  <Size>100</Size>
+                </Field>
+              </Fields>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>timestamp</Name>
+              <Optional>true</Optional>
+              <Size>31</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>periodicReport</Name>
+          <Description>Message is sent periodically based on the reporting configuration</Description>
+          <MIN>100</MIN>
+          <Fields>
+            <Field xsi:type="UnsignedIntField">
+              <Name>reportingId</Name>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>parameters</Name>
+              <Size>100</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>paramId</Name>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="DynamicField">
+                  <Name>value</Name>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>paramTimestamp</Name>
+                  <Optional>true</Optional>
+                  <Size>31</Size>
+                </Field>
+              </Fields>
+            </Field>
+            <Field xsi:type="SignedIntField">
+              <Name>latitude</Name>
+              <Optional>true</Optional>
+              <Size>24</Size>
+            </Field>
+            <Field xsi:type="SignedIntField">
+              <Name>longitude</Name>
+              <Optional>true</Optional>
+              <Size>25</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>speed</Name>
+              <Optional>true</Optional>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="SignedIntField">
+              <Name>altitude</Name>
+              <Optional>true</Optional>
+              <Size>20</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>timestamp</Name>
+              <Optional>true</Optional>
+              <Size>31</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>paramAlertON</Name>
+          <Description>Alert message is sent when one of the analytics criteria met (parameter value starts exceeding specified min/max)</Description>
+          <MIN>101</MIN>
+          <Fields>
+            <Field xsi:type="UnsignedIntField">
+              <Name>paramId</Name>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="DynamicField">
+              <Name>value</Name>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>parameters</Name>
+              <Size>100</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>paramId</Name>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="DynamicField">
+                  <Name>value</Name>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>paramTimestamp</Name>
+                  <Optional>true</Optional>
+                  <Size>31</Size>
+                </Field>
+              </Fields>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>paramTimestamp</Name>
+              <Optional>true</Optional>
+              <Size>31</Size>
+            </Field>
+            <Field xsi:type="SignedIntField">
+              <Name>latitude</Name>
+              <Optional>true</Optional>
+              <Size>24</Size>
+            </Field>
+            <Field xsi:type="SignedIntField">
+              <Name>longitude</Name>
+              <Optional>true</Optional>
+              <Size>25</Size>
+            </Field>
+            <Field xsi:type="SignedIntField">
+              <Name>altitude</Name>
+              <Optional>true</Optional>
+              <Size>20</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>timestamp</Name>
+              <Optional>true</Optional>
+              <Size>31</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>paramAlertOFF</Name>
+          <Description>Alert off message is sent when one of the analytics criteria met (parameter value stops exceeding specified min/max)</Description>
+          <MIN>102</MIN>
+          <Fields>
+            <Field xsi:type="UnsignedIntField">
+              <Name>paramId</Name>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="DynamicField">
+              <Name>value</Name>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>parameters</Name>
+              <Size>100</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>paramId</Name>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="DynamicField">
+                  <Name>value</Name>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>paramTimestamp</Name>
+                  <Optional>true</Optional>
+                  <Size>31</Size>
+                </Field>
+              </Fields>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>paramTimestamp</Name>
+              <Optional>true</Optional>
+              <Size>31</Size>
+            </Field>
+            <Field xsi:type="SignedIntField">
+              <Name>latitude</Name>
+              <Optional>true</Optional>
+              <Size>24</Size>
+            </Field>
+            <Field xsi:type="SignedIntField">
+              <Name>longitude</Name>
+              <Optional>true</Optional>
+              <Size>25</Size>
+            </Field>
+            <Field xsi:type="SignedIntField">
+              <Name>altitude</Name>
+              <Optional>true</Optional>
+              <Size>20</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>timestamp</Name>
+              <Optional>true</Optional>
+              <Size>31</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>paramAlertChange</Name>
+          <Description>Alert off message is sent when one of the analytics criteria met (parameter value changed by specified number)</Description>
+          <MIN>103</MIN>
+          <Fields>
+            <Field xsi:type="UnsignedIntField">
+              <Name>paramId</Name>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="DynamicField">
+              <Name>value</Name>
+            </Field>
+            <Field xsi:type="DynamicField">
+              <Name>changeValue</Name>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>parameters</Name>
+              <Size>100</Size>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>paramId</Name>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="DynamicField">
+                  <Name>value</Name>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>paramTimestamp</Name>
+                  <Optional>true</Optional>
+                  <Size>31</Size>
+                </Field>
+              </Fields>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>paramTimestamp</Name>
+              <Optional>true</Optional>
+              <Size>31</Size>
+            </Field>
+            <Field xsi:type="SignedIntField">
+              <Name>latitude</Name>
+              <Optional>true</Optional>
+              <Size>24</Size>
+            </Field>
+            <Field xsi:type="SignedIntField">
+              <Name>longitude</Name>
+              <Optional>true</Optional>
+              <Size>25</Size>
+            </Field>
+            <Field xsi:type="SignedIntField">
+              <Name>altitude</Name>
+              <Optional>true</Optional>
+              <Size>20</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>timestamp</Name>
+              <Optional>true</Optional>
+              <Size>31</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>positionChangeAlert</Name>
+          <Description>Position change alert message is sent when the asset is moved away from the original installation point. See position change alerting for description</Description>
+          <MIN>104</MIN>
+          <Fields>
+            <Field xsi:type="SignedIntField">
+              <Name>latitude</Name>
+              <Optional>true</Optional>
+              <Size>24</Size>
+            </Field>
+            <Field xsi:type="SignedIntField">
+              <Name>longitude</Name>
+              <Optional>true</Optional>
+              <Size>25</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>speed</Name>
+              <Optional>true</Optional>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="SignedIntField">
+              <Name>altitude</Name>
+              <Optional>true</Optional>
+              <Size>20</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>distance</Name>
+              <Optional>true</Optional>
+              <Size>31</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>timestamp</Name>
+              <Optional>true</Optional>
+              <Size>31</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>error</Name>
+          <Description>Error message. Message is transmitted when a command execution or a communication error occur</Description>
+          <MIN>200</MIN>
+          <Fields>
+            <Field xsi:type="StringField">
+              <Name>errText</Name>
+              <Optional>true</Optional>
+              <Size>100</Size>
+            </Field>
+            <Field xsi:type="EnumField">
+              <Name>err</Name>
+              <Optional>true</Optional>
+              <Items>
+                <string>Communication with device restored</string>
+                <string>Communication with device lost</string>
+                <string>Reporting configuration is either empty or specified reportingId not found</string>
+                <string>Analytics configuration is either empty or specified analyticsId not found</string>
+                <string>Failed to acknowledged position change alerts</string>
+              </Items>
+              <Size>4</Size>
+            </Field>
+          </Fields>
+        </Message>
+      </ReturnMessages>
+    </Service>
+  </Services>
+</MessageDefinition>
