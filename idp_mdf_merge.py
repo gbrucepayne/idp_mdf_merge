@@ -4,18 +4,18 @@ Tool for merging Message Definition Files for Inmarsat IsatData Pro Message Gate
 Imports two or more XML files with extension ``.idpmsg``.
 
 .. note::
-   **TO DO**:
+   **TODO**:
 
    Add log file output including any errors.
 
    Document steps for creating an executable application.
-   https://stackoverflow.com/questions/5458048/how-to-make-a-python-script-standalone-executable-to-run-without-any-dependency
-   https://medium.com/dreamcatcher-its-blog/making-an-stand-alone-executable-from-a-python-script-using-pyinstaller-d1df9170e263
-   https://ourcodeworld.com/articles/read/273/how-to-create-an-executable-exe-from-a-python-script-in-windows-using-pyinstaller
+   `Stack Overflow <https://stackoverflow.com/questions/5458048/how-to-make-a-python-script-standalone-executable-to-run-without-any-dependency>`_
+   'Blog <https://medium.com/dreamcatcher-its-blog/making-an-stand-alone-executable-from-a-python-script-using-pyinstaller-d1df9170e263>`_
+   `Our Code World <https://ourcodeworld.com/articles/read/273/how-to-create-an-executable-exe-from-a-python-script-in-windows-using-pyinstaller>`_
 
    Ensure core files are included in build package or that URL links are accessible
-   https://stackoverflow.com/questions/16334297/how-to-embed-a-text-file-into-a-single-executable-using-py2exe
-   https://python-packaging.readthedocs.io/en/latest/non-code-files.html
+   `Stack Overflow <https://stackoverflow.com/questions/16334297/how-to-embed-a-text-file-into-a-single-executable-using-py2exe>`_
+   `Readthedocs <https://python-packaging.readthedocs.io/en/latest/non-code-files.html>`_
 
 """
 
