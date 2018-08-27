@@ -1,4 +1,6 @@
 from setuptools import setup
+from distutils.core import setup
+import glob
 import py2exe
 
 
@@ -26,4 +28,7 @@ setup(name='idp_mdf_merge',
           'os'
       ],
       include_package_data=True,
-      zip_safe=False)
+      zip_safe=False,
+      console=["idp_mdf_merge.py"],
+      data_files=[("files", ['coremodem.idpmsg', 'skywave_lsf_core_agents.idpmsg'])]
+      )
