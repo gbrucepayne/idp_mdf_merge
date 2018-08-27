@@ -8,7 +8,8 @@ Imports two or more XML files with extension ``.idpmsg``.
 
    Add log file output including any errors.
 
-   Document steps for creating an executable application (having problems with tcl on Windows 7...):
+   Document steps for creating an executable application (having problems with
+   `tcl on Windows 7 <https://github.com/pyinstaller/pyinstaller/issues/1957>`_...):
 
    * `Ref 1 <https://stackoverflow.com/questions/5458048/how-to-make-a-python-script-standalone-executable-to-run-without-any-dependency>`_
    * `Ref 2 <https://medium.com/dreamcatcher-its-blog/making-an-stand-alone-executable-from-a-python-script-using-pyinstaller-d1df9170e263>`_
