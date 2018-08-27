@@ -3,8 +3,8 @@
 Tool for merging Message Definition Files for Inmarsat IsatData Pro Message Gateway System.
 Imports two or more XML files with extension ``.idpmsg``.
 
-.. todo::
-   Graceful exit if you just close the main window.
+.. note::
+   **TO DO**:
 
    Add log file output including any errors.
 

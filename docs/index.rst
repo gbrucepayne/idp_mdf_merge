@@ -10,6 +10,11 @@ Welcome to idp_mdf_merge's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+idp_mdf_merge
+-------------
+
+.. automodule:: idp_mdf_merge
+   :members:
 
 
 Indices and tables
