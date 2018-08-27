@@ -79,52 +79,67 @@ class MergeDialog(tk.Frame):
         self.parameters = parameters
 
         self.master.title("IDP Message Definition Merge Tool")
-        self.pack(fill='both', expand=1)
 
-        self.label = tk.Label(master, text="Files to merge:")
-        self.label.pack()
+        entry_label_width = 33
 
-        self.file_list = tk.Listbox(master, selectmode='extended', width=40)
+        self.input_label = tk.Label(master, text="Files to merge:")
+        self.input_label.grid(row=0, column=0, sticky=tk.E)
+
+        self.file_list = tk.Listbox(master,
+                                    selectmode='extended',
+                                    height=5,
+                                    width=entry_label_width)
         self.file_path_list = []
         if self.parameters['files'] is not None:
             for f in self.parameters['files']:
                 self.file_list.insert(tk.END, ntpath.basename(f))
                 self.file_path_list.append(f)
-        self.file_list.pack()
+        self.file_list.grid(row=0, column=1, rowspan=2, sticky=tk.W)
 
         self.add_button = tk.Button(master,
                                     text="Add File(s)...",
                                     command=self.add_message_definition_files)
-        self.add_button.pack()
+        self.add_button.grid(row=0, column=2, sticky=tk.W)
 
         self.rem_button = tk.Button(master,
                                     text="Remove File(s)...",
                                     command=self.remove_message_definition_files)
-        self.rem_button.pack()
+        self.rem_button.grid(row=1, column=2, sticky=tk.W)
+
+        self.output_label = tk.Label(master, text="Target output file:")
+        self.output_label.grid(row=3, column=0, sticky=tk.E)
+
+        self.var_target = tk.StringVar(value=OUTPUT_FILE)
+        self.parameters['target'] = OUTPUT_PATH + '\\' + OUTPUT_FILE
+        self.target = tk.Entry(master, textvariable=self.var_target, width=entry_label_width)
+        self.target.grid(row=3, column=1, sticky=tk.W)
+
+        self.add_target_button = tk.Button(master, text="Add Target...", command=self.add_target)
+        self.add_target_button.grid(row=3, column=2, sticky=tk.W)
 
         self.var_modem = tk.IntVar(value=self.parameters['modem'])
         self.modem_check = tk.Checkbutton(master,
                                           text="Merge Core Modem definitions",
                                           variable=self.var_modem)
-        self.modem_check.pack()
+        self.modem_check.grid(row=4, column=1, sticky=tk.W)
 
         self.var_lsf = tk.IntVar(value=self.parameters['lsf'])
         self.lsf_core_check = tk.Checkbutton(master,
-                                             text="Merge LSF Core/Agent Services definitions",
+                                             text="Merge LSF Core/Agent definitions",
                                              variable=self.var_lsf)
-        self.lsf_core_check.pack()
+        self.lsf_core_check.grid(row=5, column=1, sticky=tk.W)
 
         if enable_smart_tags:
             self.var_meta = tk.IntVar(value=self.parameters['meta'])
             self.meta_check = tk.Checkbutton(master,
                                              text="Apply metadata tags",
                                              variable=self.var_meta)
-            self.meta_check.pack()
+            self.meta_check.grid(row=6, column=1, sticky=tk.W)
         else:
             self.var_meta = tk.IntVar(value=False)
 
         self.ok_button = tk.Button(master, text="OK", command=self.ok_quit)
-        self.ok_button.pack()
+        self.ok_button.grid(row=8, column=1)
 
     def add_message_definition_files(self):
         """Opens a dialog box to import the target XML files."""
@@ -149,6 +164,23 @@ class MergeDialog(tk.Frame):
             self.file_list.delete(i)
             self.file_path_list.pop(i)
 
+    def add_target(self):
+        """Opens a dialog box to save the target merged XML file."""
+        filters = {
+            # ('all files', '*.*'),
+            ('idpmsg files', '*.idpmsg')
+        }
+        title = "Select Target File..."
+        filename = ''
+        while filename == '':
+            filename = tkFileDialog.asksaveasfilename(title=title,
+                                                      filetypes=filters,
+                                                      initialdir=OUTPUT_PATH,
+                                                      initialfile=OUTPUT_FILE)
+        if filename is not None and filename != '':
+            self.var_target.set(ntpath.basename(filename))
+            self.parameters['target'] = filename
+
     def ok_quit(self):
         """Parses parameters to edit by reference to calling function/object."""
         cur_dir = os.path.dirname(os.path.realpath(__file__))
@@ -166,7 +198,7 @@ class MergeDialog(tk.Frame):
             if not valid_path(f):
                 if self.parameters['error'] is None:
                     self.parameters['error'] = []
-                self.parameters['error'].append("Invalid path: %s", f)
+                self.parameters['error'].append("ERROR: Invalid path {path}".format(path=f))
         self.parameters['files'] = self.file_path_list
         self.quit()
 
@@ -331,10 +363,12 @@ def get_merge_parameters(files, target, modem, lsf, meta):
     }
     root = tk.Tk()
     dialog = MergeDialog(root, merge_parameters)
+    '''
     if enable_smart_tags:
-        root.geometry("325x350")
+        root.geometry("325x400")
     else:
-        root.geometry("325x315")
+        root.geometry("325x375")
+    # '''
     root.protocol('WM_DELETE_WINDOW', _on_closing)
     root.mainloop()
     merge_parameters = dialog.parameters

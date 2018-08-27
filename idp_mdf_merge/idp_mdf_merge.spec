@@ -4,9 +4,9 @@ block_cipher = None
 
 
 a = Analysis(['idp_mdf_merge.py'],
-             pathex=['C:\\Users\\geoffbp\\workspace\\idp_mdf_merge\\idp_mdf_merge'],
+             pathex=['C:\\Users\\Geoff\\Documents\\Projects\\idp_mdf_merge\\idp_mdf_merge'],
              binaries=[],
-             datas=[('C:\\Python27\\tcl\\tcl8.5', 'tcl\\tcl8.5'), ('C:\\Python27\\tcl\\tk8.5', 'tk\\tk8.5')],
+             datas=[],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],

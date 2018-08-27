@@ -1,0 +1,1598 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MessageDefinition xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Services>
+    <Service>
+      <Name>coreModem</Name>
+      <Description>Reserved message definitions for the Network Operator.</Description>
+      <SIN>0</SIN>
+      <ForwardMessages>
+        <Message>
+          <Name>setOperatorTxState</Name>
+          <Description>RESTRICTED sets priority mute level on transmitter</Description>
+          <MIN>32</MIN>
+          <Fields>
+            <Field xsi:type="UnsignedIntField">
+              <Name>operatorTxState</Name>
+              <Size>8</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>setBroadcastIds</Name>
+          <Description>RESTRICTED sets 16 broadcast ID values</Description>
+          <MIN>36</MIN>
+          <Fields>
+            <Field xsi:type="ArrayField">
+              <Name>broadcastIds</Name>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>id</Name>
+                  <Description>Eight digit unique number without GRP or checksum</Description>
+                  <Size>24</Size>
+                </Field>
+              </Fields>
+              <Fixed>true</Fixed>
+              <Size>16</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>setUserTxState</Name>
+          <Description>RESTRICTED sets user mute level on transmitter</Description>
+          <MIN>64</MIN>
+          <Fields>
+            <Field xsi:type="UnsignedIntField">
+              <Name>userTxState</Name>
+              <Size>8</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>getPositionSmall</Name>
+          <Description>RESTRICTED unpublished location query</Description>
+          <MIN>66</MIN>
+        </Message>
+        <Message>
+          <Name>reset</Name>
+          <Description>Reset the modem and/or terminal</Description>
+          <MIN>68</MIN>
+          <Fields>
+            <Field xsi:type="EnumField">
+              <Name>resetType</Name>
+              <Description>Determines which devices are reset and whether queued from-mobile messages are kept or flushed</Description>
+              <Items>
+                <string>ModemPreserve</string>
+                <string>ModemFlush</string>
+                <string>Terminal</string>
+                <string>TerminalModemFlush</string>
+              </Items>
+              <Size>8</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>setWakeupInterval</Name>
+          <Description>Set the low-power wakeup interval</Description>
+          <MIN>70</MIN>
+          <Fields>
+            <Field xsi:type="EnumField">
+              <Name>wakeupPeriod</Name>
+              <Description>Length of time unit stays in low power. Larger values result in greater power saving, but increased to-mobile message latency.</Description>
+              <Items>
+                <string>None</string>
+                <string>Seconds30</string>
+                <string>Seconds60</string>
+                <string>Minutes3</string>
+                <string>Minutes10</string>
+                <string>Minutes30</string>
+                <string>Minutes60</string>
+                <string>Minutes2</string>
+                <string>Minutes5</string>
+                <string>Minutes15</string>
+                <string>Minutes20</string>
+              </Items>
+              <Size>8</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>setTxMute</Name>
+          <Description>Enable or disable modem transmissions</Description>
+          <MIN>71</MIN>
+          <Fields>
+            <Field xsi:type="UnsignedIntField">
+              <Name>reserved</Name>
+              <Size>7</Size>
+            </Field>
+            <Field xsi:type="BooleanField">
+              <Name>txMute</Name>
+              <Description>Set to "true" to disable transmit (ReportRegistration is sent regardless)</Description>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>requestPosition</Name>
+          <Description>Solicit the modem location</Description>
+          <MIN>72</MIN>
+        </Message>
+        <Message>
+          <Name>requestConfiguration</Name>
+          <Description>Solicit the modem configuration/status</Description>
+          <MIN>97</MIN>
+        </Message>
+        <Message>
+          <Name>requestLastRxInfo</Name>
+          <Description>Query diagnostics about the last message received</Description>
+          <MIN>98</MIN>
+        </Message>
+        <Message>
+          <Name>requestRxMetrics</Name>
+          <Description>Query diagnostics about the forward link</Description>
+          <MIN>99</MIN>
+          <Fields>
+            <Field xsi:type="EnumField">
+              <Name>period</Name>
+              <Items>
+                <string>Reserved</string>
+                <string>LastPartialMinute</string>
+                <string>LastFullMinute</string>
+                <string>LastPartialHour</string>
+                <string>LastFullHour</string>
+                <string>LastPartialDay</string>
+                <string>LastFullDay</string>
+              </Items>
+              <Size>8</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>requestTxMetrics</Name>
+          <Description>Query diagnostics about the return link</Description>
+          <MIN>100</MIN>
+          <Fields>
+            <Field xsi:type="EnumField">
+              <Name>period</Name>
+              <Items>
+                <string>SinceReset</string>
+                <string>LastPartialMinute</string>
+                <string>LastFullMinute</string>
+                <string>LastPartialHour</string>
+                <string>LastFullHour</string>
+                <string>LastPartialDay</string>
+                <string>LastFullDay</string>
+              </Items>
+              <Size>8</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>pingModemRequest</Name>
+          <Description>Solicit a ping reply</Description>
+          <MIN>112</MIN>
+          <Fields>
+            <Field xsi:type="UnsignedIntField">
+              <Name>requestTime</Name>
+              <Description>Seconds since midnight UTC, echoed in the reply</Description>
+              <Size>16</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>pingNetworkReply</Name>
+          <Description>Automatically sent by gateway in response to a ping network request</Description>
+          <MIN>113</MIN>
+          <Fields>
+            <Field xsi:type="UnsignedIntField">
+              <Name>requestTime</Name>
+              <Description>Seconds since midnight UTC submitted to the modem, copied from the ping network request</Description>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>responseTime</Name>
+              <Description>Seconds since midnight UTC when the response was created by the gateway</Description>
+              <Size>16</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>requestBroadcastIDs</Name>
+          <Description>Retrieve the list of configured broadcastIDs</Description>
+          <MIN>115</MIN>
+        </Message>
+      </ForwardMessages>
+      <ReturnMessages>
+        <Message>
+          <Name>modemRegistration</Name>
+          <Description>Automatically sent by the modem on reset. Some version fields may be SkyWave-specific.</Description>
+          <Fields>
+            <Field xsi:type="UnsignedIntField">
+              <Name>hardwareVersion</Name>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>softwareVersion</Name>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>productId</Name>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="EnumField">
+              <Name>wakeupPeriod</Name>
+              <Items>
+                <string>None</string>
+                <string>Seconds30</string>
+                <string>Seconds60</string>
+                <string>Minutes3</string>
+                <string>Minutes10</string>
+                <string>Minutes30</string>
+                <string>Minutes60</string>
+                <string>Minutes2</string>
+                <string>Minutes5</string>
+                <string>Minutes15</string>
+                <string>Minutes20</string>
+              </Items>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="EnumField">
+              <Name>lastResetReason</Name>
+              <Items>
+                <string>Unknown</string>
+                <string>PowerOn</string>
+                <string>NewVirtualCarrier</string>
+                <string>External</string>
+                <string>ResetMessage</string>
+                <string>LowVoltage</string>
+                <string>Watchdog</string>
+                <string>Software</string>
+                <string>Reserved</string>
+                <string>Reserved</string>
+                <string>Reserved</string>
+                <string>Reserved</string>
+                <string>Reserved</string>
+              </Items>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>virtualCarrierId</Name>
+              <Size>12</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>beam</Name>
+              <Size>4</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>vain</Name>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>reserved</Name>
+              <Size>2</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>operatorTxState</Name>
+              <Size>3</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>userTxState</Name>
+              <Size>3</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>broadcastIdCount</Name>
+              <Size>8</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>beamChange</Name>
+          <MIN>1</MIN>
+          <Fields>
+            <Field xsi:type="UnsignedIntField">
+              <Name>virtualCarrierId</Name>
+              <Size>12</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>beam</Name>
+              <Size>4</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>protocolError</Name>
+          <MIN>2</MIN>
+          <Fields>
+            <Field xsi:type="UnsignedIntField">
+              <Name>messageReference</Name>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>errorCode</Name>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>errorInfo</Name>
+              <Size>8</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>positionSmall</Name>
+          <Description>RESTRICTED undocumented</Description>
+          <MIN>69</MIN>
+          <Fields>
+            <Field xsi:type="SignedIntField">
+              <Name>latitude</Name>
+              <Size>24</Size>
+            </Field>
+            <Field xsi:type="SignedIntField">
+              <Name>longitude</Name>
+              <Size>25</Size>
+            </Field>
+            <Field xsi:type="EnumField">
+              <Name>weekday</Name>
+              <Items>
+                <string>Sunday</string>
+                <string>Monday</string>
+                <string>Tuesday</string>
+                <string>Wednesday</string>
+                <string>Thursday</string>
+                <string>Friday</string>
+                <string>Saturday</string>
+              </Items>
+              <Size>3</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>hour</Name>
+              <Size>5</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>minute</Name>
+              <Size>6</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>speed</Name>
+              <Size>6</Size>
+            </Field>
+            <Field xsi:type="EnumField">
+              <Name>heading</Name>
+              <Items>
+                <string>N</string>
+                <string>NE</string>
+                <string>E</string>
+                <string>SE</string>
+                <string>S</string>
+                <string>SW</string>
+                <string>W</string>
+                <string>NW</string>
+              </Items>
+              <Size>3</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>wakeupIntervalChanged</Name>
+          <MIN>70</MIN>
+          <Fields>
+            <Field xsi:type="EnumField">
+              <Name>wakeupInterval</Name>
+              <Items>
+                <string>None</string>
+                <string>Seconds30</string>
+                <string>Seconds60</string>
+                <string>Minutes3</string>
+                <string>Minutes10</string>
+                <string>Minutes30</string>
+                <string>Minutes60</string>
+                <string>Minutes2</string>
+                <string>Minutes5</string>
+                <string>Minutes15</string>
+                <string>Minutes20</string>
+              </Items>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="BooleanField">
+              <Name>localInitiated</Name>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>messageReference</Name>
+              <Size>11</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>replyPosition</Name>
+          <MIN>72</MIN>
+          <Fields>
+            <Field xsi:type="UnsignedIntField">
+              <Name>fixStatus</Name>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="SignedIntField">
+              <Name>latitude</Name>
+              <Description>Latitude in 0.001 minutes</Description>
+              <Size>24</Size>
+            </Field>
+            <Field xsi:type="SignedIntField">
+              <Name>longitude</Name>
+              <Description>Longitude in 0.001 minutes</Description>
+              <Size>25</Size>
+            </Field>
+            <Field xsi:type="SignedIntField">
+              <Name>altitude</Name>
+              <Description>Altitude in metres</Description>
+              <Size>15</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>speed</Name>
+              <Description>Speed in km/h</Description>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>heading</Name>
+              <Description>Heading in 2-degree steps (North=0)</Description>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>dayOfMonth</Name>
+              <Size>5</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>minuteOfDay</Name>
+              <Size>11</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>replyConfiguration</Name>
+          <MIN>97</MIN>
+          <Fields>
+            <Field xsi:type="UnsignedIntField">
+              <Name>hardwareVersion</Name>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>softwareVersion</Name>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>productId</Name>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="EnumField">
+              <Name>wakeupInterval</Name>
+              <Items>
+                <string>None</string>
+                <string>Seconds30</string>
+                <string>Seconds60</string>
+                <string>Minutes3</string>
+                <string>Minutes10</string>
+                <string>Minutes30</string>
+                <string>Minutes60</string>
+                <string>Minutes2</string>
+                <string>Minutes5</string>
+                <string>Minutes15</string>
+                <string>Minutes20</string>
+              </Items>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="EnumField">
+              <Name>lastResetReason</Name>
+              <Items>
+                <string>Unknown</string>
+                <string>PowerOn</string>
+                <string>NewVirtualCarrier</string>
+                <string>External</string>
+                <string>ResetMessage</string>
+                <string>LowVoltage</string>
+                <string>Watchdog</string>
+                <string>Software</string>
+                <string>Reserved</string>
+                <string>Reserved</string>
+                <string>Reserved</string>
+                <string>Reserved</string>
+                <string>Reserved</string>
+              </Items>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>virtualCarrierId</Name>
+              <Size>12</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>beam</Name>
+              <Size>4</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>vain</Name>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>reserved</Name>
+              <Size>2</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>operatorTxState</Name>
+              <Size>3</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>userTxState</Name>
+              <Size>3</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>broadcastIDCount</Name>
+              <Size>8</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>replyLastRxInfo</Name>
+          <MIN>98</MIN>
+          <Fields>
+            <Field xsi:type="BooleanField">
+              <Name>sipValid</Name>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>subframeNumber</Name>
+              <Size>15</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>numSegmentsDetected</Name>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>numSegmentsOk</Name>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>frequencyOffset</Name>
+              <Size>9</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>timingOffset</Name>
+              <Size>5</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>segmentCN0</Name>
+              <Size>9</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>uwCN0</Name>
+              <Size>9</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>uwRSSI</Name>
+              <Size>32</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>numUwSymbols</Name>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>numUwErrors</Name>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>RxSegmentSymbols</Name>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>RxSegmentErrors</Name>
+              <Size>16</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>replyRxMetrics</Name>
+          <MIN>99</MIN>
+          <Fields>
+            <Field xsi:type="EnumField">
+              <Name>period</Name>
+              <Items>
+                <string>Reserved</string>
+                <string>LastPartialMinute</string>
+                <string>LastFullMinute</string>
+                <string>LastPartialHour</string>
+                <string>LastFullHour</string>
+                <string>LastPartialDay</string>
+                <string>LastFullDay</string>
+              </Items>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>RxSegments</Name>
+              <Size>32</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>RxSegmentsOK</Name>
+              <Size>32</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>avgCN0</Name>
+              <Size>9</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>samplesCN0</Name>
+              <Size>15</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>RxChannelErrorRate</Name>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>uwErrorRate</Name>
+              <Size>8</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>replyTxMetrics</Name>
+          <MIN>100</MIN>
+          <Fields>
+            <Field xsi:type="EnumField">
+              <Name>period</Name>
+              <Items>
+                <string>SinceReset</string>
+                <string>LastPartialMinute</string>
+                <string>LastFullMinute</string>
+                <string>LastPartialHour</string>
+                <string>LastFullHour</string>
+                <string>LastPartialDay</string>
+                <string>LastFullDay</string>
+              </Items>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>maskSegmentTypes</Name>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>arrayTxMetrics</Name>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>TxSegmentsSent</Name>
+                  <Size>32</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>TxSegmentsSuccess</Name>
+                  <Size>32</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>TxSegmentsFailed</Name>
+                  <Size>32</Size>
+                </Field>
+              </Fields>
+              <Size>-1</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>replyModemPing</Name>
+          <MIN>112</MIN>
+          <Fields>
+            <Field xsi:type="UnsignedIntField">
+              <Name>requestTime</Name>
+              <Description>Request time (seconds since midnight UTC) echoed from request message</Description>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>responseTime</Name>
+              <Description>Response time (seconds since midnight UTC) queued in the modem</Description>
+              <Size>16</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>requestNetworkPing</Name>
+          <MIN>113</MIN>
+          <Fields>
+            <Field xsi:type="UnsignedIntField">
+              <Name>requestTime</Name>
+              <Description>Request time (seconds since midnight UTC) queued in the modem</Description>
+              <Size>16</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>test</Name>
+          <Description>RESTRICTED used during type approval tests</Description>
+          <MIN>114</MIN>
+          <Fields>
+            <Field xsi:type="StringField">
+              <Name>text</Name>
+              <Size>-1</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>replyBroadcastIds</Name>
+          <MIN>115</MIN>
+          <Fields>
+            <Field xsi:type="ArrayField">
+              <Name>broadcastIDs</Name>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>id</Name>
+                  <Description>Eight-digit unique ID without GRP or checksum</Description>
+                  <Size>24</Size>
+                </Field>
+              </Fields>
+              <Fixed>true</Fixed>
+              <Size>16</Size>
+            </Field>
+          </Fields>
+        </Message>
+      </ReturnMessages>
+    </Service>
+    <Service>
+      <Name>SkyWaveModem</Name>
+      <Description>Reserved undocumented likely SkyWave-specific</Description>
+      <SIN>2</SIN>
+      <ForwardMessages>
+        <Message>
+          <Name>getRegisters</Name>
+          <Fields>
+            <Field xsi:type="DataField">
+              <Name>registers</Name>
+              <Size>127</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>getNetworkParameters</Name>
+          <MIN>1</MIN>
+          <Fields>
+            <Field xsi:type="StringField">
+              <Name>password</Name>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>parameters</Name>
+              <Fields>
+                <Field xsi:type="EnumField">
+                  <Name>parameter</Name>
+                  <Items>
+                    <string>Antenna cut threshold</string>
+                    <string>Net VAIN</string>
+                    <string>Sat beam sample threshold</string>
+                    <string>Sat sliding average window</string>
+                    <string>Sat sampling count</string>
+                    <string>Sat force Virtual Carrier ID</string>
+                    <string>Sat force beam</string>
+                    <string>Sat force global beam</string>
+                    <string>GPS permitted NMEA sentences</string>
+                    <string>GPS maximum pDop value</string>
+                    <string>GPS NMEA config</string>
+                    <string>GPS jamming detection config</string>
+                  </Items>
+                  <Size>8</Size>
+                </Field>
+              </Fields>
+              <Size>127</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>getPowerParameters</Name>
+          <MIN>2</MIN>
+          <Fields>
+            <Field xsi:type="StringField">
+              <Name>password</Name>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>profiles</Name>
+              <Fields>
+                <Field xsi:type="EnumField">
+                  <Name>profile</Name>
+                  <Items>
+                    <string>Mobile powered</string>
+                    <string>Fixed powered</string>
+                    <string>Mobile battery</string>
+                    <string>Fixed battery</string>
+                  </Items>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="ArrayField">
+                  <Name>parameters</Name>
+                  <Fields>
+                    <Field xsi:type="EnumField">
+                      <Name>parameter</Name>
+                      <Items>
+                        <string>gst : GPS Stale Time</string>
+                        <string>txl : Transmit message age timeout</string>
+                        <string>bsi : Beam Search Interval</string>
+                        <string>bsd : Beam Switch Delta</string>
+                        <string>lpa : Low Power Awake interval</string>
+                        <string>ric : Rx Immediate retry Count</string>
+                        <string>rit : Rx retry Initial Timeout</string>
+                        <string>rts : Rx retry Timeout Scale factor</string>
+                        <string>rmt : Rx retry Maximum Timeout</string>
+                        <string>sbd : Short-term Blockage Duration</string>
+                        <string>bit : Beam search Initial Timeout</string>
+                        <string>bts : Beam search Timeout Scale factor</string>
+                        <string>bmt : Beam search Maximum Timeout</string>
+                        <string>mbd : beam search primary duration</string>
+                        <string>lbd : Long-term Blockage Duration</string>
+                        <string>ust: uBlox standby timeout</string>
+                      </Items>
+                      <Size>8</Size>
+                    </Field>
+                  </Fields>
+                  <Size>127</Size>
+                </Field>
+              </Fields>
+              <Size>127</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>getFactoryParameters</Name>
+          <MIN>3</MIN>
+          <Fields>
+            <Field xsi:type="StringField">
+              <Name>password</Name>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>parameters</Name>
+              <Fields>
+                <Field xsi:type="EnumField">
+                  <Name>parameter</Name>
+                  <Items>
+                    <string>PARM_TABLE_VERSION</string>
+                    <string>PARM_T_CAL</string>
+                    <string>PARM_UNUSED</string>
+                    <string>PARM_UNUSED2</string>
+                    <string>PARM_F_TCXO_OFF</string>
+                    <string>PARM_UNUSED3</string>
+                    <string>PARM_GAIN_RX_LO</string>
+                    <string>PARM_PRODUCT_ID</string>
+                    <string>PARM_AGC_FREQ</string>
+                    <string>PARM_TARGET_EIRP</string>
+                    <string>PARM_ANT_LOSS1</string>
+                    <string>PARM_ANT_LOSS2</string>
+                    <string>PARM_ANT_LOSS3</string>
+                    <string>PARM_ANT_LOSS4</string>
+                    <string>PARM_ANT_LOSS5</string>
+                    <string>PARM_3V_TX_I_SCALE</string>
+                    <string>PARM_3V_TX_I_OFF </string>
+                    <string>PARM_3V_TX_Q_SCALE</string>
+                    <string>PARM_3V_TX_Q_OFF</string>
+                    <string>PARM_3V_OL_TX_PWR1</string>
+                    <string>PARM_3V_OL_TX_PWR2</string>
+                    <string>PARM_3V_OL_TX_PWR3</string>
+                    <string>PARM_3V_OL_TX_PWR4</string>
+                    <string>PARM_3V_OL_TX_PWR5</string>
+                    <string>PARM_3V_OL_TX_PWR6</string>
+                    <string>PARM_3V_OL_PWR_DAC1</string>
+                    <string>PARM_3V_OL_PWR_DAC2 </string>
+                    <string>PARM_3V_OL_PWR_DAC3 </string>
+                    <string>PARM_3V_OL_PWR_DAC4    </string>
+                    <string>PARM_3V_OL_PWR_DAC5</string>
+                    <string>PARM_3V_OL_PWR_DAC6</string>
+                    <string>PARM_3V_OL_PWR1_F1</string>
+                    <string>PARM_3V_OL_PWR1_F2</string>
+                    <string>PARM_3V_OL_PWR1_F3</string>
+                    <string>PARM_3V_OL_PWR1_F4</string>
+                    <string>PARM_3V_OL_PWR1_F5</string>
+                    <string>PARM_3V_OL_PWR2_F1</string>
+                    <string>PARM_3V_OL_PWR2_F2</string>
+                    <string>PARM_3V_OL_PWR2_F3</string>
+                    <string>PARM_3V_OL_PWR2_F4</string>
+                    <string>PARM_3V_OL_PWR2_F5</string>
+                    <string>PARM_TABLE_CHECKSUM_V1</string>
+                    <string>PARM_ANT_EIRP_0</string>
+                    <string>PARM_ANT_EIRP_1</string>
+                    <string>PARM_ANT_EIRP_2</string>
+                    <string>PARM_ANT_EIRP_3</string>
+                    <string>PARM_ANT_EIRP_4</string>
+                    <string>PARM_ANT_EIRP_5</string>
+                    <string>PARM_ANT_EIRP_6</string>
+                    <string>PARM_TABLE_CHECKSUM_V2</string>
+                    <string>RTC calibration temperature</string>
+                    <string>RTC calibration frequency</string>
+                  </Items>
+                  <Size>8</Size>
+                </Field>
+              </Fields>
+              <Size>127</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>getTextFile</Name>
+          <MIN>4</MIN>
+          <Fields>
+            <Field xsi:type="StringField">
+              <Name>password</Name>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="EnumField">
+              <Name>fileType</Name>
+              <Items>
+                <string>File System List</string>
+                <string>Syslog</string>
+                <string>Event Log</string>
+                <string>Beam Table</string>
+              </Items>
+              <Size>8</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>getDatabaseKeys</Name>
+          <MIN>5</MIN>
+          <Fields>
+            <Field xsi:type="StringField">
+              <Name>password</Name>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>databases</Name>
+              <Fields>
+                <Field xsi:type="EnumField">
+                  <Name>database</Name>
+                  <Items>
+                    <string>Network configuration</string>
+                    <string>Beam hop patterns</string>
+                    <string>Return link coding schemes</string>
+                    <string>Beam contours</string>
+                    <string>Beam G/T grids</string>
+                  </Items>
+                  <Size>8</Size>
+                </Field>
+              </Fields>
+              <Size>127</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>getVirtualCarriers</Name>
+          <MIN>6</MIN>
+          <Fields>
+            <Field xsi:type="StringField">
+              <Name>password</Name>
+              <Size>16</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>getEventRecords</Name>
+          <MIN>7</MIN>
+          <Fields>
+            <Field xsi:type="ArrayField">
+              <Name>eventRecords</Name>
+              <Fields>
+                <Field xsi:type="EnumField">
+                  <Name>class</Name>
+                  <Items>
+                    <string>Reserved</string>
+                    <string>Fault</string>
+                    <string>System</string>
+                    <string>Satellite</string>
+                    <string>GPS</string>
+                    <string>Message</string>
+                  </Items>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>subclass</Name>
+                  <Size>8</Size>
+                </Field>
+              </Fields>
+              <Size>127</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>setNetworkParameters</Name>
+          <MIN>11</MIN>
+          <Fields>
+            <Field xsi:type="StringField">
+              <Name>password</Name>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>parameters</Name>
+              <Fields>
+                <Field xsi:type="EnumField">
+                  <Name>parameter</Name>
+                  <Items>
+                    <string>Antenna cut threshold</string>
+                    <string>Net VAIN</string>
+                    <string>Sat beam sample threshold</string>
+                    <string>Sat sliding average window</string>
+                    <string>Sat sampling count</string>
+                    <string>Sat force Virtual Carrier ID</string>
+                    <string>Sat force beam</string>
+                    <string>Sat force global beam</string>
+                    <string>GPS permitted NMEA sentences</string>
+                    <string>GPS maximum pDop value</string>
+                    <string>GPS NMEA config</string>
+                    <string>GPS jamming detection config</string>
+                  </Items>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="SignedIntField">
+                  <Name>value</Name>
+                  <Size>32</Size>
+                </Field>
+              </Fields>
+              <Size>127</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>setPowerParameters</Name>
+          <MIN>12</MIN>
+          <Fields>
+            <Field xsi:type="StringField">
+              <Name>password</Name>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>profiles</Name>
+              <Fields>
+                <Field xsi:type="EnumField">
+                  <Name>profile</Name>
+                  <Items>
+                    <string>Mobile powered</string>
+                    <string>Fixed powered</string>
+                    <string>Mobile battery</string>
+                    <string>Fixed battery</string>
+                  </Items>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="ArrayField">
+                  <Name>parameters</Name>
+                  <Fields>
+                    <Field xsi:type="EnumField">
+                      <Name>parameter</Name>
+                      <Items>
+                        <string>gst : GPS Stale Time</string>
+                        <string>txl : Transmit message age timeout</string>
+                        <string>bsi : Beam Search Interval</string>
+                        <string>bsd : Beam Switch Delta</string>
+                        <string>lpa : Low Power Awake interval</string>
+                        <string>ric : Rx Immediate retry Count</string>
+                        <string>rit : Rx retry Initial Timeout</string>
+                        <string>rts : Rx retry Timeout Scale factor</string>
+                        <string>rmt : Rx retry Maximum Timeout</string>
+                        <string>sbd : Short-term Blockage Duration</string>
+                        <string>bit : Beam search Initial Timeout</string>
+                        <string>bts : Beam search Timeout Scale factor</string>
+                        <string>bmt : Beam search Maximum Timeout</string>
+                        <string>mbd : beam search primary duration</string>
+                        <string>lbd : Long-term Blockage Duration</string>
+                        <string>ust: uBlox standby timeout</string>
+                      </Items>
+                      <Size>8</Size>
+                    </Field>
+                    <Field xsi:type="SignedIntField">
+                      <Name>value</Name>
+                      <Size>16</Size>
+                    </Field>
+                  </Fields>
+                  <Size>127</Size>
+                </Field>
+              </Fields>
+              <Size>127</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>setFactoryParameters</Name>
+          <MIN>13</MIN>
+          <Fields>
+            <Field xsi:type="StringField">
+              <Name>password</Name>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="DataField">
+              <Name>uniqueID</Name>
+              <Fixed>true</Fixed>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>parameters</Name>
+              <Fields>
+                <Field xsi:type="EnumField">
+                  <Name>parameter</Name>
+                  <Items>
+                    <string>PARM_TABLE_VERSION</string>
+                    <string>PARM_T_CAL</string>
+                    <string>PARM_UNUSED</string>
+                    <string>PARM_UNUSED2</string>
+                    <string>PARM_F_TCXO_OFF</string>
+                    <string>PARM_UNUSED3</string>
+                    <string>PARM_GAIN_RX_LO</string>
+                    <string>PARM_PRODUCT_ID</string>
+                    <string>PARM_AGC_FREQ</string>
+                    <string>PARM_TARGET_EIRP</string>
+                    <string>PARM_ANT_LOSS1</string>
+                    <string>PARM_ANT_LOSS2</string>
+                    <string>PARM_ANT_LOSS3</string>
+                    <string>PARM_ANT_LOSS4</string>
+                    <string>PARM_ANT_LOSS5</string>
+                    <string>PARM_3V_TX_I_SCALE</string>
+                    <string>PARM_3V_TX_I_OFF </string>
+                    <string>PARM_3V_TX_Q_SCALE</string>
+                    <string>PARM_3V_TX_Q_OFF</string>
+                    <string>PARM_3V_OL_TX_PWR1</string>
+                    <string>PARM_3V_OL_TX_PWR2</string>
+                    <string>PARM_3V_OL_TX_PWR3</string>
+                    <string>PARM_3V_OL_TX_PWR4</string>
+                    <string>PARM_3V_OL_TX_PWR5</string>
+                    <string>PARM_3V_OL_TX_PWR6</string>
+                    <string>PARM_3V_OL_PWR_DAC1</string>
+                    <string>PARM_3V_OL_PWR_DAC2 </string>
+                    <string>PARM_3V_OL_PWR_DAC3 </string>
+                    <string>PARM_3V_OL_PWR_DAC4    </string>
+                    <string>PARM_3V_OL_PWR_DAC5</string>
+                    <string>PARM_3V_OL_PWR_DAC6</string>
+                    <string>PARM_3V_OL_PWR1_F1</string>
+                    <string>PARM_3V_OL_PWR1_F2</string>
+                    <string>PARM_3V_OL_PWR1_F3</string>
+                    <string>PARM_3V_OL_PWR1_F4</string>
+                    <string>PARM_3V_OL_PWR1_F5</string>
+                    <string>PARM_3V_OL_PWR2_F1</string>
+                    <string>PARM_3V_OL_PWR2_F2</string>
+                    <string>PARM_3V_OL_PWR2_F3</string>
+                    <string>PARM_3V_OL_PWR2_F4</string>
+                    <string>PARM_3V_OL_PWR2_F5</string>
+                    <string>PARM_TABLE_CHECKSUM_V1</string>
+                    <string>PARM_ANT_EIRP_0</string>
+                    <string>PARM_ANT_EIRP_1</string>
+                    <string>PARM_ANT_EIRP_2</string>
+                    <string>PARM_ANT_EIRP_3</string>
+                    <string>PARM_ANT_EIRP_4</string>
+                    <string>PARM_ANT_EIRP_5</string>
+                    <string>PARM_ANT_EIRP_6</string>
+                    <string>PARM_TABLE_CHECKSUM_V2</string>
+                    <string>RTC calibration temperature</string>
+                    <string>RTC calibration frequency</string>
+                  </Items>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="SignedIntField">
+                  <Name>value</Name>
+                  <Size>32</Size>
+                </Field>
+              </Fields>
+              <Size>127</Size>
+            </Field>
+          </Fields>
+        </Message>
+      </ForwardMessages>
+      <ReturnMessages>
+        <Message>
+          <Name>registers</Name>
+          <Fields>
+            <Field xsi:type="EnumField">
+              <Name>status</Name>
+              <Items>
+                <string>Success</string>
+                <string>PasswordError</string>
+                <string>IndexError</string>
+              </Items>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>registers</Name>
+              <Fields>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>register</Name>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="SignedIntField">
+                  <Name>value</Name>
+                  <Size>32</Size>
+                </Field>
+              </Fields>
+              <Size>127</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>networkParameters</Name>
+          <MIN>1</MIN>
+          <Fields>
+            <Field xsi:type="EnumField">
+              <Name>status</Name>
+              <Items>
+                <string>OK</string>
+                <string>PasswordError</string>
+                <string>IndexError</string>
+              </Items>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>parameters</Name>
+              <Fields>
+                <Field xsi:type="EnumField">
+                  <Name>parameter</Name>
+                  <Items>
+                    <string>Antenna cut threshold</string>
+                    <string>Net VAIN</string>
+                    <string>Sat beam sample threshold</string>
+                    <string>Sat sliding average window</string>
+                    <string>Sat sampling count</string>
+                    <string>Sat force Virtual Carrier ID</string>
+                    <string>Sat force beam</string>
+                    <string>Sat force global beam</string>
+                    <string>GPS permitted NMEA sentences</string>
+                    <string>GPS maximum pDop value</string>
+                    <string>GPS NMEA config</string>
+                    <string>GPS jamming detection config</string>
+                  </Items>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>value</Name>
+                  <Size>32</Size>
+                </Field>
+              </Fields>
+              <Size>127</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>powerParameters</Name>
+          <MIN>2</MIN>
+          <Fields>
+            <Field xsi:type="EnumField">
+              <Name>status</Name>
+              <Items>
+                <string>OK</string>
+                <string>PasswordError</string>
+                <string>IndexError</string>
+              </Items>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>profiles</Name>
+              <Fields>
+                <Field xsi:type="EnumField">
+                  <Name>profile</Name>
+                  <Items>
+                    <string>Mobile powered</string>
+                    <string>Fixed powered</string>
+                    <string>Mobile battery</string>
+                    <string>Fixed battery</string>
+                  </Items>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="ArrayField">
+                  <Name>parameters</Name>
+                  <Fields>
+                    <Field xsi:type="EnumField">
+                      <Name>parameter</Name>
+                      <Items>
+                        <string>gst : GPS Stale Time</string>
+                        <string>txl : Transmit message age timeout</string>
+                        <string>bsi : Beam Search Interval</string>
+                        <string>bsd : Beam Switch Delta</string>
+                        <string>lpa : Low Power Awake interval</string>
+                        <string>ric : Rx Immediate retry Count</string>
+                        <string>rit : Rx retry Initial Timeout</string>
+                        <string>rts : Rx retry Timeout Scale factor</string>
+                        <string>rmt : Rx retry Maximum Timeout</string>
+                        <string>sbd : Short-term Blockage Duration</string>
+                        <string>bit : Beam search Initial Timeout</string>
+                        <string>bts : Beam search Timeout Scale factor</string>
+                        <string>bmt : Beam search Maximum Timeout</string>
+                        <string>mbd : beam search primary duration</string>
+                        <string>lbd : Long-term Blockage Duration</string>
+                        <string>ust: uBlox standby timeout</string>
+                      </Items>
+                      <Size>8</Size>
+                    </Field>
+                    <Field xsi:type="UnsignedIntField">
+                      <Name>value</Name>
+                      <Size>16</Size>
+                    </Field>
+                  </Fields>
+                  <Size>127</Size>
+                </Field>
+              </Fields>
+              <Size>127</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>factoryParameters</Name>
+          <MIN>3</MIN>
+          <Fields>
+            <Field xsi:type="EnumField">
+              <Name>status</Name>
+              <Items>
+                <string>OK</string>
+                <string>PasswordError</string>
+                <string>IndexError</string>
+              </Items>
+            </Field>
+            <Field xsi:type="DataField">
+              <Name>uniqueID</Name>
+              <Fixed>true</Fixed>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>parameters</Name>
+              <Fields>
+                <Field xsi:type="EnumField">
+                  <Name>parameter</Name>
+                  <Items>
+                    <string>PARM_TABLE_VERSION</string>
+                    <string>PARM_T_CAL</string>
+                    <string>PARM_UNUSED</string>
+                    <string>PARM_UNUSED2</string>
+                    <string>PARM_F_TCXO_OFF</string>
+                    <string>PARM_UNUSED3</string>
+                    <string>PARM_GAIN_RX_LO</string>
+                    <string>PARM_PRODUCT_ID</string>
+                    <string>PARM_AGC_FREQ</string>
+                    <string>PARM_TARGET_EIRP</string>
+                    <string>PARM_ANT_LOSS1</string>
+                    <string>PARM_ANT_LOSS2</string>
+                    <string>PARM_ANT_LOSS3</string>
+                    <string>PARM_ANT_LOSS4</string>
+                    <string>PARM_ANT_LOSS5</string>
+                    <string>PARM_3V_TX_I_SCALE</string>
+                    <string>PARM_3V_TX_I_OFF </string>
+                    <string>PARM_3V_TX_Q_SCALE</string>
+                    <string>PARM_3V_TX_Q_OFF</string>
+                    <string>PARM_3V_OL_TX_PWR1</string>
+                    <string>PARM_3V_OL_TX_PWR2</string>
+                    <string>PARM_3V_OL_TX_PWR3</string>
+                    <string>PARM_3V_OL_TX_PWR4</string>
+                    <string>PARM_3V_OL_TX_PWR5</string>
+                    <string>PARM_3V_OL_TX_PWR6</string>
+                    <string>PARM_3V_OL_PWR_DAC1</string>
+                    <string>PARM_3V_OL_PWR_DAC2 </string>
+                    <string>PARM_3V_OL_PWR_DAC3 </string>
+                    <string>PARM_3V_OL_PWR_DAC4    </string>
+                    <string>PARM_3V_OL_PWR_DAC5</string>
+                    <string>PARM_3V_OL_PWR_DAC6</string>
+                    <string>PARM_3V_OL_PWR1_F1</string>
+                    <string>PARM_3V_OL_PWR1_F2</string>
+                    <string>PARM_3V_OL_PWR1_F3</string>
+                    <string>PARM_3V_OL_PWR1_F4</string>
+                    <string>PARM_3V_OL_PWR1_F5</string>
+                    <string>PARM_3V_OL_PWR2_F1</string>
+                    <string>PARM_3V_OL_PWR2_F2</string>
+                    <string>PARM_3V_OL_PWR2_F3</string>
+                    <string>PARM_3V_OL_PWR2_F4</string>
+                    <string>PARM_3V_OL_PWR2_F5</string>
+                    <string>PARM_TABLE_CHECKSUM_V1</string>
+                    <string>PARM_ANT_EIRP_0</string>
+                    <string>PARM_ANT_EIRP_1</string>
+                    <string>PARM_ANT_EIRP_2</string>
+                    <string>PARM_ANT_EIRP_3</string>
+                    <string>PARM_ANT_EIRP_4</string>
+                    <string>PARM_ANT_EIRP_5</string>
+                    <string>PARM_ANT_EIRP_6</string>
+                    <string>PARM_TABLE_CHECKSUM_V2</string>
+                    <string>RTC calibration temperature</string>
+                    <string>RTC calibration frequency</string>
+                  </Items>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="SignedIntField">
+                  <Name>value</Name>
+                  <Size>32</Size>
+                </Field>
+              </Fields>
+              <Size>127</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>textFile</Name>
+          <MIN>4</MIN>
+          <Fields>
+            <Field xsi:type="EnumField">
+              <Name>status</Name>
+              <Items>
+                <string>OK</string>
+                <string>PasswordError</string>
+              </Items>
+            </Field>
+            <Field xsi:type="EnumField">
+              <Name>fileType</Name>
+              <Items>
+                <string>File System List</string>
+                <string>Syslog</string>
+                <string>Event Log</string>
+              </Items>
+              <Size>8</Size>
+            </Field>
+            <Field xsi:type="StringField">
+              <Name>fileText</Name>
+              <Size>6400</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>databaseKeys</Name>
+          <MIN>5</MIN>
+          <Fields>
+            <Field xsi:type="EnumField">
+              <Name>status</Name>
+              <Items>
+                <string>OK</string>
+                <string>PasswordError</string>
+                <string>IndexError</string>
+              </Items>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>databaseVersion</Name>
+              <Size>32</Size>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>databases</Name>
+              <Fields>
+                <Field xsi:type="EnumField">
+                  <Name>database</Name>
+                  <Items>
+                    <string>Network configuration</string>
+                    <string>Beam hop patterns</string>
+                    <string>Return link coding schemes</string>
+                    <string>Beam contours</string>
+                    <string>Beam G/T grids</string>
+                  </Items>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="ArrayField">
+                  <Name>keys</Name>
+                  <Fields>
+                    <Field xsi:type="UnsignedIntField">
+                      <Name>key1</Name>
+                      <Size>16</Size>
+                    </Field>
+                    <Field xsi:type="UnsignedIntField">
+                      <Name>key2</Name>
+                      <Size>16</Size>
+                    </Field>
+                  </Fields>
+                  <Size>127</Size>
+                </Field>
+              </Fields>
+              <Size>127</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>virtualCarriers</Name>
+          <MIN>6</MIN>
+          <Fields>
+            <Field xsi:type="EnumField">
+              <Name>status</Name>
+              <Items>
+                <string>OK</string>
+                <string>PasswordError</string>
+              </Items>
+            </Field>
+            <Field xsi:type="UnsignedIntField">
+              <Name>vain</Name>
+              <Size>16</Size>
+            </Field>
+            <Field xsi:type="DataField">
+              <Name>permittedMask</Name>
+              <Size>127</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>eventRecords</Name>
+          <MIN>7</MIN>
+          <Fields>
+            <Field xsi:type="EnumField">
+              <Name>status</Name>
+              <Items>
+                <string>OK</string>
+                <string>PasswordError</string>
+                <string>IndexError</string>
+              </Items>
+            </Field>
+            <Field xsi:type="ArrayField">
+              <Name>eventRecords</Name>
+              <Fields>
+                <Field xsi:type="EnumField">
+                  <Name>class</Name>
+                  <Items>
+                    <string>Reserved</string>
+                    <string>Fault</string>
+                    <string>System</string>
+                    <string>Satellite</string>
+                    <string>GPS</string>
+                    <string>Message</string>
+                  </Items>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>subclass</Name>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="EnumField">
+                  <Name>priority</Name>
+                  <Items>
+                    <string>Reserved</string>
+                    <string>Critical</string>
+                    <string>Major</string>
+                    <string>Minor</string>
+                    <string>Information</string>
+                  </Items>
+                  <Size>8</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>timestamp</Name>
+                  <Size>32</Size>
+                </Field>
+                <Field xsi:type="UnsignedIntField">
+                  <Name>signedMask</Name>
+                  <Size>32</Size>
+                </Field>
+                <Field xsi:type="ArrayField">
+                  <Name>values</Name>
+                  <Fields>
+                    <Field xsi:type="UnsignedIntField">
+                      <Name>value</Name>
+                      <Size>32</Size>
+                    </Field>
+                  </Fields>
+                  <Size>127</Size>
+                </Field>
+              </Fields>
+              <Size>127</Size>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>setUserParameterStatus</Name>
+          <MIN>11</MIN>
+          <Fields>
+            <Field xsi:type="EnumField">
+              <Name>status</Name>
+              <Items>
+                <string>OK</string>
+                <string>PasswordError</string>
+                <string>IndexError</string>
+                <string>DataError</string>
+                <string>ReadOnly</string>
+              </Items>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>setPowerParameterStatus</Name>
+          <MIN>12</MIN>
+          <Fields>
+            <Field xsi:type="EnumField">
+              <Name>status</Name>
+              <Items>
+                <string>OK</string>
+                <string>PasswordError</string>
+                <string>IndexError</string>
+                <string>DataError</string>
+                <string>ReadOnly</string>
+              </Items>
+            </Field>
+          </Fields>
+        </Message>
+        <Message>
+          <Name>setFactoryParameterStatus</Name>
+          <MIN>13</MIN>
+          <Fields>
+            <Field xsi:type="EnumField">
+              <Name>status</Name>
+              <Items>
+                <string>OK</string>
+                <string>PasswordError</string>
+                <string>IndexError</string>
+                <string>DataError</string>
+                <string>ReadOnly</string>
+              </Items>
+            </Field>
+          </Fields>
+        </Message>
+      </ReturnMessages>
+    </Service>
+  </Services>
+</MessageDefinition>
