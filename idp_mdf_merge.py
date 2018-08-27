@@ -8,13 +8,13 @@ Imports two or more XML files with extension ``.idpmsg``.
 
    Add log file output including any errors.
 
-   Document steps for creating an executable application.
+   Document steps for creating an executable application (having problems with tcl on Windows 7...):
 
    * `Ref 1 <https://stackoverflow.com/questions/5458048/how-to-make-a-python-script-standalone-executable-to-run-without-any-dependency>`_
-   * 'Ref 2 <https://medium.com/dreamcatcher-its-blog/making-an-stand-alone-executable-from-a-python-script-using-pyinstaller-d1df9170e263>`_
+   * `Ref 2 <https://medium.com/dreamcatcher-its-blog/making-an-stand-alone-executable-from-a-python-script-using-pyinstaller-d1df9170e263>`_
    * `Ref 3 <https://ourcodeworld.com/articles/read/273/how-to-create-an-executable-exe-from-a-python-script-in-windows-using-pyinstaller>`_
 
-   Ensure core files are included in build package or that URL links are accessible
+   Ensure core files are included in build package or that URL links are accessible:
 
    * `Ref 4 <https://stackoverflow.com/questions/16334297/how-to-embed-a-text-file-into-a-single-executable-using-py2exe>`_
    * `Ref 5 <https://python-packaging.readthedocs.io/en/latest/non-code-files.html>`_
