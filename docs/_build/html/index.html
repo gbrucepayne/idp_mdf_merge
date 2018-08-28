@@ -79,6 +79,55 @@
 <span id="idp-mdf-merge"></span><h2>idp_mdf_merge<a class="headerlink" href="#module-idp_mdf_merge" title="Permalink to this headline">¶</a></h2>
 <p>Tool for merging Message Definition Files for Inmarsat IsatData Pro Message Gateway System.
 Imports two or more XML files with extension <code class="docutils literal notranslate"><span class="pre">.idpmsg</span></code>.</p>
+<table border="1" class="docutils" id="id1">
+<caption><span class="caption-text">Data Types</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="20%" />
+<col width="26%" />
+<col width="19%" />
+<col width="35%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Terminal API</td>
+<td>MDF.idpmsg</td>
+<td>REST API</td>
+<td>Note</td>
+</tr>
+<tr class="row-even"><td>Enum (0)
+Boolean (1)
+Unsigned (2)
+Signed (3)
+String (4)
+Data (5)
+Array (6)
+Dynamic (7)
+Property (8)
+Message (9)</td>
+<td>EnumField
+BooleanField
+UnsignedIntField
+SignedIntField
+StringField
+DataField
+ArrayField
+DynamicField
+PropertyField
+MessageField</td>
+<td>enum
+boolean
+unsignedint
+signedint
+string
+data
+array</td>
+<td>Note: 31 bits
+Note: 32 bits
+Note: size in chars
+Note: size in bytes
+Note: size in elements</td>
+</tr>
+</tbody>
+</table>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p><strong>TODO</strong>:</p>
@@ -161,26 +210,6 @@ Imports two or more XML files with extension <code class="docutils literal notra
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="data">
-<dt id="idp_mdf_merge.enable_smart_tags">
-<code class="descclassname">idp_mdf_merge.</code><code class="descname">enable_smart_tags</code><em class="property"> = False</em><a class="headerlink" href="#idp_mdf_merge.enable_smart_tags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Data Types
-+————–+——————+————-+————————+
-| Terminal API | MDF.idpmsg       | REST API    | Note                   |
-+————–+——————+————-+————————+
-| Enum (0)     | EnumField        | enum        |                        |
-| Boolean (1)  | BooleanField     | boolean     |                        |
-| Unsigned (2) | UnsignedIntField | unsignedint | Note: 31 bits          |
-| Signed (3)   | SignedIntField   | signedint   | Note: 32 bits          |
-| String (4)   | StringField      | string      | Note: size in chars    |
-| Data (5)     | DataField        | data        | Note: size in bytes    |
-| Array (6)    | ArrayField       | array       | Note: size in elements |
-| Dynamic (7)  | DynamicField     |             |                        |
-| Property (8) | PropertyField    |             |                        |
-| Message (9)  | MessageField     |             |                        |
-+————–+——————+————-+————————+</p>
 </dd></dl>
 
 <dl class="function">

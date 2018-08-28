@@ -4,6 +4,7 @@ Tool for merging Message Definition Files for Inmarsat IsatData Pro Message Gate
 Imports two or more XML files with extension ``.idpmsg``.
 
 .. table:: Data Types
+
     +--------------+------------------+-------------+------------------------+
     | Terminal API | MDF.idpmsg       | REST API    | Note                   |
     +--------------+------------------+-------------+------------------------+
@@ -73,23 +74,6 @@ NS = {
 }
 
 enable_smart_tags = False
-'''
-Data Types
-+--------------+------------------+-------------+------------------------+
-| Terminal API | MDF.idpmsg       | REST API    | Note                   |
-+--------------+------------------+-------------+------------------------+
-| Enum (0)     | EnumField        | enum        |                        |
-| Boolean (1)  | BooleanField     | boolean     |                        |
-| Unsigned (2) | UnsignedIntField | unsignedint | Note: 31 bits          |
-| Signed (3)   | SignedIntField   | signedint   | Note: 32 bits          |
-| String (4)   | StringField      | string      | Note: size in chars    |
-| Data (5)     | DataField        | data        | Note: size in bytes    |
-| Array (6)    | ArrayField       | array       | Note: size in elements |
-| Dynamic (7)  | DynamicField     |             |                        |
-| Property (8) | PropertyField    |             |                        |
-| Message (9)  | MessageField     |             |                        |
-+--------------+------------------+-------------+------------------------+
-'''
 
 
 class MergeDialog(tk.Frame):
