@@ -57,6 +57,26 @@ NS = {
 }
 
 enable_smart_tags = False
+'''
+Data Types
++--------------+------------------+-------------+------------------------+
+| Terminal API | MDF.idpmsg       | REST API    | Note                   |
++--------------+------------------+-------------+------------------------+
+| Enum (0)     | EnumField        | enum        |                        |
+| Boolean (1)  | BooleanField     | boolean     |                        |
+| Unsigned (2) | UnsignedIntField | unsignedint | Note: 31 bits          |
+| Signed (3)   | SignedIntField   | signedint   | Note: 32 bits          |
+| String (4)   | StringField      | string      | Note: size in chars    |
+| Data (5)     | DataField        | data        | Note: size in bytes    |
+| Array (6)    | ArrayField       | array       | Note: size in elements |
+| Dynamic (7)  | DynamicField     |             |                        |
+| Property (8) | PropertyField    |             |                        |
+| Message (9)  | MessageField     |             |                        |
++--------------+------------------+-------------+------------------------+
+'''
+data_types_terminal_api = {
+    'unsigned': 'Unsigned'
+}
 
 
 class MergeDialog(tk.Frame):
@@ -243,7 +263,7 @@ def valid_path(filename):
 
 def merge_mdf(files, target, meta=False):
     """
-    Merges message definition files.
+    Merges message definition files, sorted in ascending order of SIN.
 
     .. note::
        Potential issue with XML namespaces.
@@ -265,7 +285,7 @@ def merge_mdf(files, target, meta=False):
         if ext != '.idpmsg':
             target = target.replace(ext, '.idpmsg')
         if not valid_path(target.replace(os.path.basename(target), '')):
-            return "Invalid target file/path %s" % target
+            return "ERROR: Invalid target file/path {target}".format(target=target)
         err_filename = base_filename + '_ERR.log'
         services = []
         exceptions = []
@@ -308,10 +328,18 @@ def merge_mdf(files, target, meta=False):
                             limb.tail = '\n    '
                         trunk.append(limb)
                     else:
-                        exceptions.append("Found duplicate SIN in \"%s\" Services - ignoring SIN %s" % (f, service))
+                        exceptions.append("WARNING: Found duplicate SIN in \"{file}\" Services "
+                                          "- ignoring SIN {sin}".format(file=f, sin=service))
             else:
-                exceptions.append("Invalid Message Definition File - no Services in %s" % f)
+                exceptions.append("WARNING: Invalid Message Definition File - no Services in {file}".format(file=f))
         if len(services) > 0:
+            container = tree.find("Services")
+            data = []
+            for elem in container:
+                key = elem.findtext("SIN")
+                data.append((key, elem))
+            data.sort()
+            container[:] = [item[-1] for item in data]
             last_element_index = len(services) - 1
             trunk[last_element_index].tail = '\n  '
             for prefix, uri in NS.iteritems():
@@ -319,7 +347,7 @@ def merge_mdf(files, target, meta=False):
                 root.set('xmlns:' + prefix, uri)
             tree.write(target, encoding='utf-8', xml_declaration=True)
         else:
-            exceptions.append("No Services found in source file set")
+            exceptions.append("ERROR: No Services found in source file set.")
         if len(exceptions) > 0:
             error_file = open(err_filename, 'w')
             for e in exceptions:
@@ -366,12 +394,6 @@ def get_merge_parameters(files, target, modem, lsf, meta):
     }
     root = tk.Tk()
     dialog = MergeDialog(root, merge_parameters)
-    '''
-    if enable_smart_tags:
-        root.geometry("325x400")
-    else:
-        root.geometry("325x375")
-    # '''
     root.protocol('WM_DELETE_WINDOW', _on_closing)
     root.mainloop()
     merge_parameters = dialog.parameters

@@ -163,6 +163,26 @@ Imports two or more XML files with extension <code class="docutils literal notra
 </table>
 </dd></dl>
 
+<dl class="data">
+<dt id="idp_mdf_merge.enable_smart_tags">
+<code class="descclassname">idp_mdf_merge.</code><code class="descname">enable_smart_tags</code><em class="property"> = False</em><a class="headerlink" href="#idp_mdf_merge.enable_smart_tags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Data Types
++————–+——————+————-+————————+
+| Terminal API | MDF.idpmsg       | REST API    | Note                   |
++————–+——————+————-+————————+
+| Enum (0)     | EnumField        | enum        |                        |
+| Boolean (1)  | BooleanField     | boolean     |                        |
+| Unsigned (2) | UnsignedIntField | unsignedint | Note: 31 bits          |
+| Signed (3)   | SignedIntField   | signedint   | Note: 32 bits          |
+| String (4)   | StringField      | string      | Note: size in chars    |
+| Data (5)     | DataField        | data        | Note: size in bytes    |
+| Array (6)    | ArrayField       | array       | Note: size in elements |
+| Dynamic (7)  | DynamicField     |             |                        |
+| Property (8) | PropertyField    |             |                        |
+| Message (9)  | MessageField     |             |                        |
++————–+——————+————-+————————+</p>
+</dd></dl>
+
 <dl class="function">
 <dt id="idp_mdf_merge.get_merge_parameters">
 <code class="descclassname">idp_mdf_merge.</code><code class="descname">get_merge_parameters</code><span class="sig-paren">(</span><em>files</em>, <em>target</em>, <em>modem</em>, <em>lsf</em>, <em>meta</em><span class="sig-paren">)</span><a class="headerlink" href="#idp_mdf_merge.get_merge_parameters" title="Permalink to this definition">¶</a></dt>
@@ -199,7 +219,7 @@ Imports two or more XML files with extension <code class="docutils literal notra
 <dl class="function">
 <dt id="idp_mdf_merge.merge_mdf">
 <code class="descclassname">idp_mdf_merge.</code><code class="descname">merge_mdf</code><span class="sig-paren">(</span><em>files</em>, <em>target</em>, <em>meta=False</em><span class="sig-paren">)</span><a class="headerlink" href="#idp_mdf_merge.merge_mdf" title="Permalink to this definition">¶</a></dt>
-<dd><p>Merges message definition files.</p>
+<dd><p>Merges message definition files, sorted in ascending order of SIN.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Potential issue with XML namespaces.</p>
