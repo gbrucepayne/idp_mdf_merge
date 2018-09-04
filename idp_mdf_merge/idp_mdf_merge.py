@@ -69,11 +69,11 @@ except:
 # '''
 
 # GLOBAL DEFAULTS
-CORE_MODEM_PATH = os.path.dirname(os.path.realpath(__file__))    # TODO: insert evergreen URL
+CORE_MODEM_PATH = os.path.dirname(os.path.realpath(__file__)) + '/mdf/'   # TODO: insert evergreen URL
 CORE_MODEM_FILE = 'coremodem.idpmsg'
-LSF_CORE_PATH = os.path.dirname(os.path.realpath(__file__))   # TODO: insert evergreen URL
+LSF_CORE_PATH = os.path.dirname(os.path.realpath(__file__)) + '/mdf/'  # TODO: insert evergreen URL
 LSF_CORE_AGENTS_FILE = 'skywave_lsf_core_agents.idpmsg'
-OUTPUT_PATH = os.path.dirname(os.path.realpath(__file__))
+OUTPUT_PATH = os.path.dirname(os.path.realpath(__file__)) + '/mdf/'
 OUTPUT_FILE = 'merged.idpmsg'
 
 # Namespace used by SkyWave SDK
