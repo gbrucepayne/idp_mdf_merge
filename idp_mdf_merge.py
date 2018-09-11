@@ -281,8 +281,10 @@ def merge_mdf(files, target, meta=False):
 
     """
     error_string = ''
-    if files is None or len(files) < 2:
+    if files is None:
         error_string = "No files to merge."
+    elif len(files) == 1 and not meta:
+        error_string = "Cannot merge only 1 file."
     elif target is None:
         error_string = "No target file to output."
         # TODO: consider using the current active directory and a default filename "merged.idpmsg"
@@ -295,6 +297,8 @@ def merge_mdf(files, target, meta=False):
         err_filename = base_filename + '_ERR.log'
         services = []
         exceptions = []
+        if len(files) == 1 and meta:
+            exceptions.append("WARNING: not merging files only applying metadata tags to single file.")
         root = ET.Element('MessageDefinition')
         root.tail = '\n'
         root.text = '\n  '
@@ -321,11 +325,20 @@ def merge_mdf(files, target, meta=False):
                     service = limb.find('SIN').text
                     if meta:
                         limb.set('sin', service)
-                        limb.set('name', limb.find('Name').text)
+                        if limb.find('Name').text:
+                            limb.set('name', limb.find('Name').text)
+                        else:
+                            limb.set('name', "*undefined*")
                     for msg in limb.iter('Message'):
                         if meta:
-                            msg.set('min', msg.find('MIN').text)
-                            msg.set('name', msg.find('Name').text)
+                            if msg.find('MIN').text:
+                                msg.set('min', msg.find('MIN').text)
+                            else:
+                                exceptions.append("ERROR: MIN not specified in SIN {sin}".format(sin=service))
+                            if msg.find('Name').text:
+                                msg.set('name', msg.find('Name').text)
+                            else:
+                                msg.set('name', '*undefined*')
                     for desc in limb.iter('Description'):
                         desc.text = clean_desc(desc.text)
                     if service not in services:

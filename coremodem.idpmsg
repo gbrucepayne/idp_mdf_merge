@@ -203,6 +203,7 @@
       <ReturnMessages>
         <Message>
           <Name>modemRegistration</Name>
+          <MIN>0</MIN>
           <Description>Automatically sent by the modem on reset. Some version fields may be SkyWave-specific.</Description>
           <Fields>
             <Field xsi:type="UnsignedIntField">
@@ -730,6 +731,7 @@
       <ForwardMessages>
         <Message>
           <Name>getRegisters</Name>
+          <MIN>0</MIN>
           <Fields>
             <Field xsi:type="DataField">
               <Name>registers</Name>
@@ -1167,6 +1169,7 @@
       <ReturnMessages>
         <Message>
           <Name>registers</Name>
+          <MIN>0</MIN>
           <Fields>
             <Field xsi:type="EnumField">
               <Name>status</Name>
