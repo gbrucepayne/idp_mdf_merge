@@ -216,11 +216,11 @@ class MergeDialog(tk.Frame):
         sep = '/' if '/' in cur_dir else '\\'
         self.parameters['modem'] = True if self.var_modem.get() else False
         if self.parameters['modem']:
-            modem_file = cur_dir + sep + CORE_MODEM_FILE
+            modem_file = CORE_MODEM_PATH + CORE_MODEM_FILE
             self.file_path_list.append(modem_file)
         self.parameters['lsf'] = True if self.var_lsf.get() else False
         if self.parameters['lsf']:
-            lsf_file = cur_dir + sep + LSF_CORE_AGENTS_FILE
+            lsf_file = LSF_CORE_PATH + LSF_CORE_AGENTS_FILE
             self.file_path_list.append(lsf_file)
         self.parameters['meta'] = True if self.var_meta.get() else False
         for f in self.file_path_list:
@@ -280,11 +280,12 @@ def merge_mdf(files, target, meta=False):
     :return: (string) error description if error, or None if successful
 
     """
+    SUPPORTED_TAGS = ['Name', 'SIN', 'ForwardMessages', 'ReturnMessages']
     error_string = ''
     if files is None:
         error_string = "No files to merge."
-    elif len(files) == 1 and not meta:
-        error_string = "Cannot merge only 1 file."
+    # elif len(files) == 1 and not meta:
+    #     error_string = "Cannot merge only 1 file."
     elif target is None:
         error_string = "No target file to output."
         # TODO: consider using the current active directory and a default filename "merged.idpmsg"
@@ -308,7 +309,7 @@ def merge_mdf(files, target, meta=False):
         tree = ET.ElementTree(root)
         for f in files:
             if not valid_path(f):
-                exceptions.append("Source file/path %s does not exist" % f)
+                exceptions.append("ERROR: Source file/path {file} does not exist".format(file=f))
                 break
             branch = ET.parse(f).getroot()
             '''
@@ -322,7 +323,13 @@ def merge_mdf(files, target, meta=False):
             '''
             if branch.findall('Services'):
                 for limb in branch[0]:
+                    # TODO: validation of mandatory elements e.g. SIN
                     service = limb.find('SIN').text
+                    for twig in limb:
+                        if twig.tag not in SUPPORTED_TAGS:
+                            limb.remove(twig)
+                            exceptions.append("WARNING: Found/removed unsupported tag {tag} "
+                                              "in {service}".format(tag=twig.tag, service=service))
                     if meta:
                         limb.set('sin', service)
                         if limb.find('Name').text:
@@ -416,8 +423,8 @@ def get_merge_parameters(files, target, modem, lsf, meta):
     root.protocol('WM_DELETE_WINDOW', _on_closing)
     root.mainloop()
     merge_parameters = dialog.parameters
-    if len(merge_parameters['files']) < 2:
-        err = "ERROR: Cannot merge fewer than 2 files."
+    if len(merge_parameters['files']) < 1:
+        err = "ERROR: No files selected to merge."
         if merge_parameters['error'] is None:
             merge_parameters['error'] = [err]
         else:
