@@ -305,7 +305,7 @@ def merge_mdf(files, target, meta=False):
         root.text = '\n  '
         trunk = ET.SubElement(parent=root, tag='Services')
         trunk.tail = '\n'
-        trunk.text = '\n \t'
+        trunk.text = '\n    '
         tree = ET.ElementTree(root)
         for f in files:
             if not valid_path(f):
@@ -350,8 +350,9 @@ def merge_mdf(files, target, meta=False):
                         desc.text = clean_desc(desc.text)
                     if service not in services:
                         services.append(service)
-                        if limb.tail == '\n  ':
-                            limb.tail = '\n    '
+                        next_indent = '\n    '
+                        if limb.tail != next_indent:
+                            limb.tail = next_indent
                         trunk.append(limb)
                     else:
                         exceptions.append("WARNING: Found duplicate SIN in \"{file}\" Services "
@@ -363,8 +364,8 @@ def merge_mdf(files, target, meta=False):
             data = []
             for elem in container:
                 key = elem.findtext("SIN")
-                data.append((key, elem))
-            data.sort()
+                data.append((int(key), elem))
+            data.sort(key=lambda tup: tup[0])
             container[:] = [item[-1] for item in data]
             last_element_index = len(services) - 1
             trunk[last_element_index].tail = '\n  '
